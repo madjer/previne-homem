@@ -1,0 +1,21 @@
+{
+  "name": "Previne Homem",
+  "short_name": "Previne",
+  "theme_color": "#1F4E79",
+  "background_color": "#F5F5F5",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
