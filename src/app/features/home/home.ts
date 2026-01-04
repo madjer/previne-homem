@@ -2,44 +2,79 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth.service';
-import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico-avatar';
 import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [ChicoAvatarComponent, RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule],
   template: `
-  <div class="min-h-screen bg-gray-100 p-4">
+  <div class="min-h-screen bg-blue-100 flex flex-col items-center pt-4">
 
-    <app-chico-avatar></app-chico-avatar>
-
-    <button *ngIf="!logado"
-      (click)="login()"
-      class="bg-blue-700 text-white w-full p-3 rounded-xl mt-4">
-      Entrar com Google
-    </button>
-
-    <button *ngIf="logado"
-      (click)="logout()"
-      class="bg-red-600 text-white w-full p-3 rounded-xl mt-4">
-      Sair
-    </button>
-
-    <h1 class="text-xl font-bold text-blue-900 mt-4">
-      Previne Homem
-    </h1>
-
-    <div class="grid grid-cols-2 gap-4 mt-6">
-      <a routerLink="/checkup" class="menu-btn">Meu Check-up</a>
-      <a routerLink="/corpo-exames" class="menu-btn">Corpo e Exames</a>
-      <a routerLink="/saude-sexual" class="menu-btn">Saúde Sexual</a>
-      <a routerLink="/mente" class="menu-btn">Mente e Emoções</a>
-      <a routerLink="/habitos" class="menu-btn">Hábitos de Vida</a>
-      <a routerLink="/duvidas" class="menu-btn">Dúvidas e UBS</a>
-      <a routerLink="/higiene-intima" class="menu-btn">Higiene íntima</a>
-    </div>
+  <!-- Header -->
+  <div class="w-full flex justify-start pl-4">
+    <img src="app_logo.png" class="w-16 absolute z-0" />
   </div>
+  <div class="w-full flex justify-end mr-4">
+    <a
+      routerLink="/perfil"
+      class="bg-blue-400 mr-2 text-white text-sm px-4 py-1 rounded-lg shadow active:scale-95 transition">
+     👨Perfil
+    </a>
+    <a
+      (click)="logout()"
+      class="bg-red-800 text-white text-sm px-4 py-1 rounded-lg shadow active:scale-95 transition">
+      📤 Sair
+    </a>
+  </div>
+  <!-- Bloco Chico + Frase -->
+  <div class="relative w-full flex justify-end">
+
+    <!-- Frase / citação -->
+
+    <img src="seuchico.png" class="w-72 justify-end relative z-0 -mb-24" />
+    <div class="absolute left-4 top-24 bg-white px-4 py-2 rounded-2xl shadow text-blue-900 text-sm font-semibold max-w-[180px]">
+      “Cuidar de si também é coisa de homem.”
+    </div>
+
+  </div>
+
+  <!-- Card Botões -->
+  <div class="w-[calc(100%-25px)] bg-white max-h-[50vh] overflow-y-auto overscroll-contain rounded-3xl p-4 space-y-3 shadow-xl relative z-11 mt-12">
+    <a routerLink="/checkup" class="menu-card">
+      <span>👨‍⚕️ Meu Check-up</span>
+      <span>›</span>
+    </a>
+
+    <a routerLink="/saude-sexual" class="menu-card">
+      <span>❤️ Saúde Sexual</span>
+      <span>›</span>
+    </a>
+
+    <a routerLink="/corpo-exames" class="menu-card">
+      <span>🩺 Corpo em Dia</span>
+      <span>›</span>
+    </a>
+
+    <a routerLink="/habitos" class="menu-card">
+      <span>🏃 Hábitos Saudáveis</span>
+      <span>›</span>
+    </a>
+    <a routerLink="/mente" class="menu-card">
+      <span>🧠 Saúde Mental</span>
+      <span>›</span>
+    </a>
+    <a routerLink="/higiene-intima" class="menu-card">
+      <span>🛁 Higiene Íntima</span>
+      <span>›</span>
+    </a>
+    <a routerLink="/duvidas" class="menu-card">
+      <span>❓ Dúvidas Frequentes</span>
+      <span>›</span>
+    </a>
+  </div>
+
+</div>
   `
 })
 export class HomeComponent {

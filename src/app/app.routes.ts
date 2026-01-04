@@ -10,6 +10,7 @@ import { SaudeSexualComponent } from './features/saude-sexual/saude-sexual';
 import { CorpoExamesComponent } from './features/corpo-exames/corpo-exames';
 import { authGuard } from './core/services/guards/auth.guard';
 import { LoginComponent } from './features/login/login';
+import { PerfilComponent } from './features/perfil/perfil';
 
 export const routes: Routes = [
  { path: 'login', component: LoginComponent },
@@ -22,4 +23,5 @@ export const routes: Routes = [
 { path: 'habitos', component: HabitosComponent, canActivate: [authGuard] },
 { path: 'duvidas', component: DuvidasUbsComponent, canActivate: [authGuard] },
 { path: 'higiene-intima', component: HigieneIntimaComponent, canActivate: [authGuard] },
+{ path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },
 ];

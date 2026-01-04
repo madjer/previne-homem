@@ -5,3 +5,7 @@
 .menu-btn {
   @apply bg-white rounded-xl shadow text-blue-900 font-semibold text-center p-4;
 }
+
+.menu-card {
+  @apply flex justify-between items-center bg-white p-4 rounded-xl shadow text-blue-900 font-semibold;
+}
