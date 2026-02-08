@@ -20,6 +20,9 @@ import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico
     </h1>
 
     <div class="bg-white p-4 rounded-xl shadow space-y-4 text-sm">
+      <div *ngIf="successMessage" class="rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200">
+        {{ successMessage }}
+      </div>
 
       <h2 class="font-semibold text-blue-800">
         Quando procurar a UBS?
@@ -55,9 +58,13 @@ import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico
 export class DuvidasUbsComponent {
 
   ubs = localStorage.getItem('ubs_nome') || '';
+  successMessage = '';
 
   salvar() {
     localStorage.setItem('ubs_nome', this.ubs);
-    alert('Informação salva com sucesso!');
+    this.successMessage = 'Informacao salva com sucesso.';
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 2500);
   }
 }

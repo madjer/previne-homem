@@ -18,6 +18,9 @@ import { GamificationService } from '../../core/services/gamification';
     </h1>
 
     <div class="bg-white p-4 rounded-xl shadow space-y-4 text-sm">
+      <div *ngIf="successMessage" class="rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200">
+        {{ successMessage }}
+      </div>
 
       <div class="bg-green-100 p-3 rounded-lg text-green-800">
         Pontos acumulados: <strong>{{ pontos }}</strong>
@@ -50,6 +53,7 @@ import { GamificationService } from '../../core/services/gamification';
 export class HabitosComponent {
 
   pontos = 0;
+  successMessage = '';
 
   constructor(private game: GamificationService) {
     this.pontos = this.game.pontos;
@@ -58,6 +62,9 @@ export class HabitosComponent {
   concluir() {
     this.game.add(10);
     this.pontos = this.game.pontos;
-    alert('Parabéns! Você ganhou 10 pontos no Desafio do Cuidado!');
+    this.successMessage = 'Parabens! Voce ganhou 10 pontos no Desafio do Cuidado!';
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 2500);
   }
 }

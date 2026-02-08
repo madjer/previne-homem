@@ -34,8 +34,18 @@ export class LoginComponent {
   password = '';
   isLoading = false;
   errorMessage = '';
+  isIOS = false;
+  isAndroid = false;
+  isDesktop = false;
 
   constructor(private auth: AuthService) { }
+
+  ngOnInit() {
+    const ua = navigator.userAgent || '';
+    this.isIOS = /iPad|iPhone|iPod/.test(ua);
+    this.isAndroid = /Android/.test(ua);
+    this.isDesktop = !this.isIOS && !this.isAndroid;
+  }
 
   loginWithEmailPassword() {
     if (!this.email || !this.password) {
