@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { PerfilService } from '../../core/services/perfil.service';
 import { Auth, authState } from '@angular/fire/auth';
-import { Subject, filter, takeUntil, take } from 'rxjs';
+import { Subject, takeUntil, take } from 'rxjs';
+import { NotificationComponent } from '../../shared/components/notification/notification';
 
 @Component({
   standalone: true,
   selector: 'app-perfil',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NotificationComponent],
   template: `
   <div class="p-4 min-h-screen bg-gray-100">
     <h1 class="text-xl font-bold text-blue-900 mb-4">Meu Perfil</h1>
@@ -20,9 +21,7 @@ import { Subject, filter, takeUntil, take } from 'rxjs';
     </div>
 
     <div *ngIf="!isLoading" class="bg-white p-4 rounded-xl shadow space-y-4">
-      <div *ngIf="successMessage" class="rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200">
-        {{ successMessage }}
-      </div>
+      <app-notification [message]="successMessage" type="success"></app-notification>
       <div class="space-y-1">
         <label class="text-sm text-gray-600">Nome</label>
         <p class="w-full p-2 border rounded bg-gray-50 text-gray-700">{{ userName || '-' }}</p>

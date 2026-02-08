@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico-avatar';
 import { GamificationService } from '../../core/services/gamification';
+import { NotificationComponent } from '../../shared/components/notification/notification';
 
 @Component({
   standalone: true,
   selector: 'app-habitos',
-  imports: [CommonModule, RouterModule, ChicoAvatarComponent],
+  imports: [CommonModule, RouterModule, ChicoAvatarComponent, NotificationComponent],
   template: `
   <div class="p-4 min-h-screen bg-gray-100">
 
@@ -18,9 +19,7 @@ import { GamificationService } from '../../core/services/gamification';
     </h1>
 
     <div class="bg-white p-4 rounded-xl shadow space-y-4 text-sm">
-      <div *ngIf="successMessage" class="rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200">
-        {{ successMessage }}
-      </div>
+      <app-notification [message]="successMessage" type="success"></app-notification>
 
       <div class="bg-green-100 p-3 rounded-lg text-green-800">
         Pontos acumulados: <strong>{{ pontos }}</strong>

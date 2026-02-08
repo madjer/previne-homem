@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico-avatar';
+import { NotificationComponent } from '../../shared/components/notification/notification';
 
 @Component({
   standalone: true,
   selector: 'app-duvidas-ubs',
-  imports: [CommonModule, RouterModule, FormsModule, ChicoAvatarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, ChicoAvatarComponent, NotificationComponent],
   template: `
   <div class="p-4 min-h-screen bg-gray-100">
 
@@ -20,9 +21,7 @@ import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico
     </h1>
 
     <div class="bg-white p-4 rounded-xl shadow space-y-4 text-sm">
-      <div *ngIf="successMessage" class="rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200">
-        {{ successMessage }}
-      </div>
+      <app-notification [message]="successMessage" type="success"></app-notification>
 
       <h2 class="font-semibold text-blue-800">
         Quando procurar a UBS?
