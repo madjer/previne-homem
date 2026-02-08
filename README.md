@@ -12,6 +12,16 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
+## Environment setup
+
+Create your local environment file before running the app:
+
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+```
+
+Then fill in your Firebase config values in `src/environments/environment.ts`.
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
