@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CheckupService } from '../../core/services/checkup.service';
 import { Checkup } from '../../shared/models/checkup.model';
 
 @Component({
   standalone: true,
   selector: 'app-checkup',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   template: `
   <div class="p-4 min-h-screen bg-gray-100">
     <h1 class="text-xl font-bold text-blue-900 mb-4">
@@ -43,6 +43,10 @@ import { Checkup } from '../../shared/models/checkup.model';
       <button (click)="salvar()" class="w-full bg-blue-700 text-white p-3 rounded-xl">
         Ver resultado
       </button>
+
+      <a routerLink="/" class="block text-center text-blue-700 font-semibold">
+        Voltar ao menu
+      </a>
     </div>
   </div>
   `

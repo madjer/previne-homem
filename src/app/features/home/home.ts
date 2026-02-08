@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -13,7 +13,12 @@ import { CommonModule } from '@angular/common';
 
   <!-- Header -->
   <div class="w-full flex justify-start pl-4">
-    <img src="app_logo.png" class="w-16 absolute z-0" />
+    <img src="mascote2.png" class="w-16 absolute z-0" />
+    <button
+      (click)="voltar()"
+      class="bg-white/80 text-blue-900 text-xs px-3 py-1 rounded-lg shadow active:scale-95 transition">
+      Voltar
+    </button>
   </div>
   <div class="w-full flex justify-end mr-4">
     <a
@@ -81,7 +86,11 @@ export class HomeComponent {
 
   logado = false;
 
-  constructor(private authService: AuthService, private auth: Auth) {
+  constructor(
+    private authService: AuthService,
+    private auth: Auth,
+    private location: Location
+  ) {
     onAuthStateChanged(this.auth, user => {
       this.logado = !!user;
     });
@@ -93,5 +102,9 @@ export class HomeComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  voltar() {
+    this.location.back();
   }
 }

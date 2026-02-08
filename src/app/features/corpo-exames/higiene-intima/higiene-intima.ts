@@ -46,6 +46,10 @@ import { ChicoAvatarComponent } from '../../../shared/components/chico-avatar/ch
       <button routerLink="/" class="w-full bg-blue-700 text-white p-3 rounded-xl">
         Entendi, vou cuidar melhor
       </button>
+
+      <a routerLink="/" class="block text-center text-blue-700 font-semibold">
+        Voltar ao menu
+      </a>
     </div>
   </div>
   `
