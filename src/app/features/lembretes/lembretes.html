@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Header -->
+  <div class="bg-yellow-500 text-white px-5 pt-10 pb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <a routerLink="/" class="text-white text-lg">←</a>
+      <h1 class="text-xl font-bold">Lembretes</h1>
+    </div>
+    <p class="text-yellow-100 text-sm">Não esqueça de cuidar de você</p>
+  </div>
+
+  <div class="px-4 py-5 space-y-4">
+
+    <!-- Sucesso -->
+    <div *ngIf="successMessage"
+      class="bg-green-100 border border-green-300 text-green-800 text-sm font-medium px-4 py-3 rounded-xl">
+      ✅ {{ successMessage }}
+    </div>
+
+    <!-- Adicionar novo -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm space-y-3">
+      <h2 class="font-bold text-gray-800">Novo lembrete</h2>
+      <input type="text" [(ngModel)]="novoTexto" placeholder="Ex: Tomar remédio"
+        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 text-gray-800" />
+      <input type="time" [(ngModel)]="novoHorario"
+        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 text-gray-800" />
+      <button (click)="adicionar()"
+        class="w-full bg-yellow-500 text-white py-3 rounded-2xl font-semibold active:scale-95 transition">
+        + Adicionar
+      </button>
+    </div>
+
+    <!-- Lista de lembretes -->
+    <div class="space-y-2">
+      <h2 class="font-bold text-gray-800 mb-1">Seus lembretes</h2>
+      <div *ngFor="let l of lembretes; let i = index"
+        class="bg-white rounded-2xl px-4 py-3 shadow-sm flex items-center gap-3">
+        <span class="text-yellow-500 text-xl">🔔</span>
+        <div class="flex-1">
+          <p class="text-sm font-semibold text-gray-800">{{ l.texto }}</p>
+          <p *ngIf="l.horario" class="text-xs text-gray-400">{{ l.horario }}</p>
+        </div>
+        <button (click)="remover(i)" class="text-gray-300 hover:text-red-400 text-lg transition">✕</button>
+      </div>
+      <p *ngIf="lembretes.length === 0" class="text-sm text-gray-400 text-center py-4">
+        Nenhum lembrete cadastrado.
+      </p>
+    </div>
+
+  </div>
+</div>

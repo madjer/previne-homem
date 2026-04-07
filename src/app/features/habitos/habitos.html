@@ -1,1 +1,57 @@
-<p>habitos works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Header roxo -->
+  <div class="bg-purple-700 text-white px-5 pt-10 pb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <a routerLink="/" class="text-white text-lg">←</a>
+      <h1 class="text-xl font-bold">Hábitos Saudáveis</h1>
+    </div>
+    <p class="text-purple-200 text-sm">Desafios do dia</p>
+  </div>
+
+  <div class="px-4 py-5 space-y-5">
+
+    <!-- Badge de pontos -->
+    <div class="bg-purple-50 border border-purple-200 rounded-2xl px-5 py-4 flex items-baseline gap-2">
+      <span class="text-4xl font-bold text-gray-800">{{ pontos }}</span>
+      <span class="text-sm text-gray-500 font-medium">pontos<br>acumulados</span>
+    </div>
+
+    <!-- Notificação de sucesso -->
+    <div *ngIf="successMessage"
+      class="bg-green-100 border border-green-300 text-green-800 text-sm font-medium px-4 py-3 rounded-xl">
+      ✅ {{ successMessage }}
+    </div>
+
+    <!-- Desafios de hoje -->
+    <div>
+      <h2 class="font-bold text-gray-800 mb-3">Desafios de hoje</h2>
+      <div class="space-y-2">
+        <div *ngFor="let desafio of desafios"
+          (click)="concluir(desafio)"
+          class="flex items-center gap-4 bg-white rounded-2xl px-4 py-4 shadow-sm cursor-pointer active:scale-95 transition border"
+          [ngClass]="desafio.concluido ? 'border-purple-300 bg-purple-50' : 'border-gray-100'">
+
+          <!-- Checkbox -->
+          <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+            [ngClass]="desafio.concluido ? 'bg-purple-600 border-purple-600' : 'border-gray-300'">
+            <span *ngIf="desafio.concluido" class="text-white text-xs">✓</span>
+          </div>
+
+          <!-- Texto -->
+          <div class="flex-1">
+            <p class="text-sm font-medium"
+              [ngClass]="desafio.concluido ? 'line-through text-gray-400' : 'text-gray-800'">
+              {{ desafio.label }}
+            </p>
+            <p class="text-xs font-semibold"
+              [ngClass]="desafio.concluido ? 'text-purple-400' : 'text-purple-600'">
+              +{{ desafio.pontos }} pts{{ desafio.concluido ? ' · concluído' : '' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
