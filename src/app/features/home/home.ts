@@ -1,110 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth.service';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { GamificationService } from '../../core/services/gamification';
 
 @Component({
   standalone: true,
   selector: 'app-home',
   imports: [RouterModule, CommonModule],
-  template: `
-  <div class="min-h-screen bg-blue-100 flex flex-col items-center pt-4">
-
-  <!-- Header -->
-  <div class="w-full flex justify-start pl-4">
-    <img src="mascote2.png" class="w-16 absolute z-0" />
-    <button
-      (click)="voltar()"
-      class="bg-white/80 text-blue-900 text-xs px-3 py-1 rounded-lg shadow active:scale-95 transition">
-      Voltar
-    </button>
-  </div>
-  <div class="w-full flex justify-end mr-4">
-    <a
-      routerLink="/perfil"
-      class="bg-blue-400 mr-2 text-white text-sm px-4 py-1 rounded-lg shadow active:scale-95 transition">
-     👨Perfil
-    </a>
-    <a
-      (click)="logout()"
-      class="bg-red-800 text-white text-sm px-4 py-1 rounded-lg shadow active:scale-95 transition">
-      📤 Sair
-    </a>
-  </div>
-  <!-- Bloco Chico + Frase -->
-  <div class="relative w-full flex justify-end">
-
-    <!-- Frase / citação -->
-
-    <img src="seuchico.png" class="w-72 justify-end relative z-0 -mb-24" />
-    <div class="absolute left-4 top-24 bg-white px-4 py-2 rounded-2xl shadow text-blue-900 text-sm font-semibold max-w-[180px]">
-      “Cuidar de si também é coisa de homem.”
-    </div>
-
-  </div>
-
-  <!-- Card Botões -->
-  <div class="w-[calc(100%-25px)] bg-white max-h-[50vh] overflow-y-auto overscroll-contain rounded-3xl p-4 space-y-3 shadow-xl relative z-11 mt-12">
-    <a routerLink="/checkup" class="menu-card">
-      <span>👨‍⚕️ Meu Check-up</span>
-      <span>›</span>
-    </a>
-
-    <a routerLink="/saude-sexual" class="menu-card">
-      <span>❤️ Saúde Sexual</span>
-      <span>›</span>
-    </a>
-
-    <a routerLink="/corpo-exames" class="menu-card">
-      <span>🩺 Corpo em Dia</span>
-      <span>›</span>
-    </a>
-
-    <a routerLink="/habitos" class="menu-card">
-      <span>🏃 Hábitos Saudáveis</span>
-      <span>›</span>
-    </a>
-    <a routerLink="/mente" class="menu-card">
-      <span>🧠 Saúde Mental</span>
-      <span>›</span>
-    </a>
-    <a routerLink="/higiene-intima" class="menu-card">
-      <span>🛁 Higiene Íntima</span>
-      <span>›</span>
-    </a>
-    <a routerLink="/duvidas" class="menu-card">
-      <span>❓ Dúvidas Frequentes</span>
-      <span>›</span>
-    </a>
-  </div>
-
-</div>
-  `
+  templateUrl: './home.html',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
-  logado = false;
+  nomeUsuario = '';
+  pontos = 0;
+
+  menuItems = [
+    { label: 'Meu Check-up',        icon: '🩺', route: '/checkup',          destaque: false },
+    { label: 'Meu Resultado',       icon: '📊', route: '/resultado-checkup', destaque: true  },
+    { label: 'Minha Saúde',         icon: '❤️', route: '/minha-saude',       destaque: false },
+    { label: 'Aprender e Prevenir', icon: '📚', route: '/corpo-exames',      destaque: false },
+    { label: 'Hábitos Saudáveis',   icon: '🏃', route: '/habitos',           destaque: false },
+    { label: 'Saúde Mental',        icon: '🧠', route: '/mente',             destaque: false },
+    { label: 'Dúvidas Rápidas',     icon: '❓', route: '/duvidas',           destaque: false },
+    { label: 'Lembretes',           icon: '🔔', route: '/lembretes',         destaque: true  },
+    { label: 'Minha UBS',           icon: '🏥', route: '/minha-ubs',         destaque: false },
+  ];
 
   constructor(
     private authService: AuthService,
     private auth: Auth,
-    private location: Location
-  ) {
-    onAuthStateChanged(this.auth, user => {
-      this.logado = !!user;
-    });
-  }
+    private game: GamificationService
+  ) {}
 
-  login() {
-    this.authService.loginGoogle();
+  ngOnInit() {
+    this.pontos = this.game.pontos;
+    onAuthStateChanged(this.auth, user => {
+      if (user) {
+        this.nomeUsuario = user.displayName?.split(' ')[0] || '';
+      }
+    });
   }
 
   logout() {
     this.authService.logout();
-  }
-
-  voltar() {
-    this.location.back();
   }
 }

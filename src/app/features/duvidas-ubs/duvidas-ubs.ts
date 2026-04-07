@@ -1,69 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { ChicoAvatarComponent } from '../../shared/components/chico-avatar/chico-avatar';
-import { NotificationComponent } from '../../shared/components/notification/notification';
 
 @Component({
   standalone: true,
   selector: 'app-duvidas-ubs',
-  imports: [CommonModule, RouterModule, FormsModule, ChicoAvatarComponent, NotificationComponent],
-  template: `
-  <div class="p-4 min-h-screen bg-gray-100">
-
-    <app-chico-avatar
-      frase="Não espere piorar. A UBS tá aí pra te ajudar."
-    ></app-chico-avatar>
-
-    <h1 class="text-xl font-bold text-blue-900 mt-4 mb-4">
-      Dúvidas e UBS
-    </h1>
-
-    <div class="bg-white p-4 rounded-xl shadow space-y-4 text-sm">
-      <app-notification [message]="successMessage" type="success"></app-notification>
-
-      <h2 class="font-semibold text-blue-800">
-        Quando procurar a UBS?
-      </h2>
-
-      <ul class="list-disc pl-5 space-y-1">
-        <li>Dor no peito ou falta de ar.</li>
-        <li>Feridas que não melhoram.</li>
-        <li>Alterações persistentes na região íntima.</li>
-        <li>Perda de peso sem motivo claro.</li>
-        <li>Dores fortes ou contínuas.</li>
-      </ul>
-
-      <div>
-        <label class="block mb-1">Nome da sua UBS ou cidade (opcional)</label>
-        <input type="text"
-          [(ngModel)]="ubs"
-          class="w-full p-2 border rounded"
-          placeholder="Ex: UBS Centro – Fortaleza">
-      </div>
-
-      <button (click)="salvar()" class="w-full bg-blue-700 text-white p-3 rounded-xl">
-        Salvar
-      </button>
-
-      <a routerLink="/" class="block text-center text-blue-700 font-semibold">
-        Voltar ao menu
-      </a>
-    </div>
-  </div>
-  `
+  imports: [CommonModule, RouterModule],
+  templateUrl: './duvidas-ubs.html',
 })
 export class DuvidasUbsComponent {
 
-  ubs = localStorage.getItem('ubs_nome') || '';
-  successMessage = '';
+  ubsNome = localStorage.getItem('ubs_nome') || 'UBS Bom Jardim';
+  ubsEndereco = 'Fortaleza, CE';
 
-  salvar() {
-    localStorage.setItem('ubs_nome', this.ubs);
-    this.successMessage = 'Informacao salva com sucesso.';
-    setTimeout(() => {
-      this.successMessage = '';
-    }, 2500);
+  servicos = ['Seg-Sex 7h-17h', 'Clínica geral', 'Vacinação', 'Exames'];
+
+  agendarConsulta() {
+    alert('Entre em contato com a UBS pelo telefone ou compareça pessoalmente para agendar sua consulta.');
+  }
+
+  verNoMapa() {
+    const query = encodeURIComponent(this.ubsNome + ' ' + this.ubsEndereco);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
   }
 }

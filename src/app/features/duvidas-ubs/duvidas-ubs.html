@@ -1,1 +1,59 @@
-<p>duvidas-ubs works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Header -->
+  <div class="bg-blue-700 text-white px-5 pt-10 pb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <a routerLink="/" class="text-white text-lg">←</a>
+      <h1 class="text-xl font-bold">Minha UBS</h1>
+    </div>
+    <p class="text-blue-200 text-sm">Seu principal ponto de cuidado</p>
+  </div>
+
+  <div class="px-4 py-5 space-y-4">
+
+    <!-- Card da UBS -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm">
+
+      <h2 class="text-lg font-bold text-gray-800 mb-1">{{ ubsNome }}</h2>
+      <p class="text-sm text-gray-500 mb-3">📍 {{ ubsEndereco }}</p>
+
+      <!-- Badges de serviços -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span *ngFor="let s of servicos"
+          class="text-xs font-semibold px-3 py-1 rounded-full"
+          [ngClass]="{
+            'bg-gray-100 text-gray-600': s.includes('Seg'),
+            'bg-gray-100 text-gray-600': s === 'Clínica geral',
+            'bg-green-100 text-green-700': s === 'Vacinação',
+            'bg-blue-100 text-blue-700': s === 'Exames'
+          }">
+          {{ s }}
+        </span>
+      </div>
+
+      <!-- Mapa placeholder -->
+      <div class="relative bg-blue-100 rounded-xl h-32 flex items-center justify-center mb-4 overflow-hidden">
+        <div class="text-4xl">📍</div>
+        <button (click)="verNoMapa()"
+          class="absolute bottom-2 right-2 bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg shadow">
+          Ver no mapa
+        </button>
+      </div>
+
+      <!-- Agendar -->
+      <button (click)="agendarConsulta()"
+        class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold active:scale-95 transition shadow-md">
+        Agendar consulta
+      </button>
+    </div>
+
+    <!-- Por que ir à UBS -->
+    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+      <h3 class="font-bold text-blue-800 mb-2">Por que ir à UBS?</h3>
+      <p class="text-sm text-blue-700">
+        A UBS oferece consultas gratuitas, exames preventivos e acompanhamento contínuo da sua saúde — sem custo.
+      </p>
+    </div>
+
+  </div>
+</div>
