@@ -21,12 +21,7 @@
       <div class="flex flex-wrap gap-2 mb-4">
         <span *ngFor="let s of servicos"
           class="text-xs font-semibold px-3 py-1 rounded-full"
-          [ngClass]="{
-            'bg-gray-100 text-gray-600': s.includes('Seg'),
-            'bg-gray-100 text-gray-600': s === 'Clínica geral',
-            'bg-green-100 text-green-700': s === 'Vacinação',
-            'bg-blue-100 text-blue-700': s === 'Exames'
-          }">
+          [ngClass]="s === 'Vacinação' ? 'bg-green-100 text-green-700' : s === 'Exames' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'">
           {{ s }}
         </span>
       </div>
