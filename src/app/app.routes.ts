@@ -15,6 +15,7 @@ import { PerfilComponent } from './features/perfil/perfil';
 import { BoasVindasComponent } from './features/boas-vindas/boas-vindas';
 import { MinhaSaudeComponent } from './features/minha-saude/minha-saude';
 import { LembretesComponent } from './features/lembretes/lembretes';
+import { HistoricoComponent } from './features/historico/historico';
 
 export const routes: Routes = [
   { path: 'boas-vindas', component: BoasVindasComponent },
@@ -34,4 +35,5 @@ export const routes: Routes = [
   { path: 'saude-sexual',    component: SaudeSexualComponent,      canActivate: [authGuard] },
   { path: 'higiene-intima',  component: HigieneIntimaComponent,    canActivate: [authGuard] },
   { path: 'perfil',          component: PerfilComponent,           canActivate: [authGuard] },
+  { path: 'historico',       component: HistoricoComponent,        canActivate: [authGuard] },
 ];

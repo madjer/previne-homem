@@ -34,6 +34,7 @@
     "@angular/router": "20.3.x ",
     "@angular/service-worker": "20.3.x",
     "firebase": "^10.12.5",
+    "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.1"
@@ -42,6 +43,7 @@
     "@angular/build": "20.3.x",
     "@angular/cli": "20.3.x",
     "@angular/compiler-cli": "20.3.x",
+    "@types/leaflet": "^1.9.21",
     "autoprefixer": "^10.4.19",
     "jsdom": "^27.1.0",
     "postcss": "^8.4.38",

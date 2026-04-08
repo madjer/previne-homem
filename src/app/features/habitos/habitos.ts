@@ -35,7 +35,7 @@ export class HabitosComponent {
   concluir(desafio: Desafio) {
     if (desafio.concluido) return;
     desafio.concluido = true;
-    this.game.add(desafio.pontos);
+    this.game.add(desafio.pontos, desafio.label);
     this.pontos = this.game.pontos;
     this.successMessage = `+${desafio.pontos} pontos! "${desafio.label}" concluído!`;
     setTimeout(() => { this.successMessage = ''; }, 2500);

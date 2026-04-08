@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CheckupService } from '../../core/services/checkup.service';
+import { HistoricoService } from '../../core/services/historico.service';
+import { GamificationService } from '../../core/services/gamification';
 import { Checkup } from '../../shared/models/checkup.model';
 
 interface Risco {
@@ -21,7 +23,11 @@ export class ResultadoCheckupComponent implements OnInit {
 
   riscos: Risco[] = [];
 
-  constructor(private service: CheckupService) {}
+  constructor(
+    private service: CheckupService,
+    private historico: HistoricoService,
+    private game: GamificationService,
+  ) {}
 
   ngOnInit() {
     const check = this.service.obter();
@@ -29,7 +35,6 @@ export class ResultadoCheckupComponent implements OnInit {
   }
 
   avaliar(c: Checkup) {
-    // Risco cardiovascular
     if (c.pressaoAlta === 'sim') {
       this.riscos.push({
         titulo: 'Risco cardiovascular',
@@ -46,7 +51,6 @@ export class ResultadoCheckupComponent implements OnInit {
       });
     }
 
-    // Risco comportamental
     const comportamentalRuim = c.fuma !== 'nao' || c.alcool === 'todoDia' || c.alcool === 'quaseTodoDia' || c.sedentario === 'sim';
     if (comportamentalRuim) {
       this.riscos.push({
@@ -64,7 +68,6 @@ export class ResultadoCheckupComponent implements OnInit {
       });
     }
 
-    // Saúde mental
     if (c.humor === 'mal' || c.humor === 'ruim') {
       this.riscos.push({
         titulo: 'Saúde mental',
@@ -79,6 +82,25 @@ export class ResultadoCheckupComponent implements OnInit {
         badge: 'Estável',
         nivel: 'green',
       });
+    }
+
+    // Registra no histórico uma vez por sessão (evita duplicar ao navegar de volta)
+    const chave = 'checkup_registrado_' + new Date().toDateString();
+    if (!sessionStorage.getItem(chave)) {
+      const alertas = this.riscos.filter(r => r.nivel !== 'green').length;
+      const descricao = alertas === 0
+        ? 'Check-up concluído — tudo estável'
+        : `Check-up concluído — ${alertas} item${alertas > 1 ? 'ns' : ''} requer${alertas === 1 ? ' atenção' : 'em atenção'}`;
+
+      this.historico.registrar({
+        tipo: 'checkup',
+        descricao,
+        pontos: 50,
+        riscos: this.riscos.map(r => ({ titulo: r.titulo, nivel: r.nivel })),
+      });
+
+      this.game.add(50, 'Check-up diário concluído');
+      sessionStorage.setItem(chave, '1');
     }
   }
 }
