@@ -1,70 +1,124 @@
 <div class="min-h-screen bg-gray-50 flex flex-col">
 
   <!-- Header -->
-  <div class="bg-blue-700 text-white px-5 pt-12 pb-6">
+  <div class="bg-cyan-700 text-white px-5 pt-12 pb-6">
     <div class="flex items-center gap-3 mb-1">
-      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-blue-600 transition">
+      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-cyan-600 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
         </svg>
       </a>
       <h1 class="text-xl font-bold">Minha UBS</h1>
     </div>
-    <p class="text-blue-200 text-sm">Seu principal ponto de cuidado</p>
+    <p class="text-cyan-200 text-sm">Encontre a unidade de saúde mais próxima</p>
   </div>
 
   <div class="px-4 py-5 space-y-4">
 
-    <!-- Card da UBS -->
-    <div class="bg-white rounded-2xl p-4 shadow-sm">
-
-      <h2 class="text-lg font-bold text-gray-800 mb-1">{{ ubsNome }}</h2>
-      <div class="flex items-center gap-1.5 text-sm text-gray-500 mb-3">
-        <svg class="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
-        </svg>
-        {{ ubsEndereco }}
-      </div>
-
-      <!-- Badges de serviços -->
-      <div class="flex flex-wrap gap-2 mb-4">
-        @for (s of servicos; track s) {
-          <span class="text-xs font-semibold px-3 py-1 rounded-full"
-            [class.bg-green-100]="s === 'Vacinação'"
-            [class.text-green-700]="s === 'Vacinação'"
-            [class.bg-blue-100]="s === 'Exames'"
-            [class.text-blue-700]="s === 'Exames'"
-            [class.bg-gray-100]="s !== 'Vacinação' && s !== 'Exames'"
-            [class.text-gray-600]="s !== 'Vacinação' && s !== 'Exames'">
-            {{ s }}
-          </span>
-        }
-      </div>
-
-      <!-- Mapa Leaflet -->
-      <div class="relative rounded-2xl overflow-hidden mb-4 border border-blue-100" style="height: 180px;">
-        <div id="mapa-ubs" class="w-full h-full"></div>
-        <button (click)="verNoMapa()"
-          class="absolute bottom-2 right-2 z-[1000] bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 flex items-center gap-1.5">
-          <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-          </svg>
-          Abrir no Maps
+    <!-- Busca por CEP -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+      <label class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">Buscar por CEP</label>
+      <div class="flex gap-2">
+        <input
+          [(ngModel)]="cep"
+          type="text"
+          inputmode="numeric"
+          maxlength="9"
+          placeholder="00000-000"
+          (keydown.enter)="buscarUbsPorCep()"
+          class="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+        />
+        <button
+          (click)="buscarUbsPorCep()"
+          [disabled]="buscando"
+          class="bg-cyan-700 text-white px-5 py-3 rounded-xl font-semibold text-sm active:scale-95 transition disabled:opacity-60 flex items-center gap-2 min-w-[90px] justify-center">
+          @if (buscando) {
+            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+            </svg>
+          } @else {
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+            </svg>
+            Buscar
+          }
         </button>
       </div>
 
-      <!-- Agendar -->
-      <button (click)="agendarConsulta()"
-        class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold active:scale-95 transition shadow-md">
-        Agendar consulta
-      </button>
+      @if (erroCep) {
+        <p class="text-xs text-red-500 mt-2 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd"/>
+          </svg>
+          {{ erroCep }}
+        </p>
+      }
     </div>
 
-    <!-- Por que ir à UBS -->
-    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
-      <h3 class="font-bold text-blue-800 mb-2">Por que ir à UBS?</h3>
-      <p class="text-sm text-blue-700 leading-relaxed">
+    <!-- Mapa — sempre visível -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <!-- Info da UBS (só quando encontrada) -->
+      @if (ubsEncontrada) {
+        <div class="p-4 border-b border-gray-100">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-xl bg-cyan-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-cyan-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/>
+              </svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold text-gray-800 leading-tight">{{ ubsNome }}</p>
+              @if (ubsEndereco) {
+                <p class="text-xs text-gray-500 mt-0.5">{{ ubsEndereco }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mt-3">
+            @for (s of servicos; track s) {
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-full"
+                [class.bg-green-100]="s === 'Vacinação'"   [class.text-green-700]="s === 'Vacinação'"
+                [class.bg-cyan-100]="s === 'Exames'"       [class.text-cyan-700]="s === 'Exames'"
+                [class.bg-gray-100]="s !== 'Vacinação' && s !== 'Exames'"
+                [class.text-gray-600]="s !== 'Vacinação' && s !== 'Exames'">
+                {{ s }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Mapa Leaflet — div sempre no DOM -->
+      <div class="relative" style="height: 220px;">
+        <div id="mapa-ubs" class="w-full h-full"></div>
+
+        @if (ubsEncontrada) {
+          <button (click)="verNoMaps()"
+            class="absolute bottom-2 right-2 z-[1000] bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-xl shadow border border-gray-100 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+            </svg>
+            Abrir no Maps
+          </button>
+        }
+      </div>
+
+      @if (ubsEncontrada) {
+        <div class="p-4 border-t border-gray-100">
+          <button (click)="agendarConsulta()"
+            class="w-full bg-cyan-700 text-white py-3.5 rounded-2xl font-semibold active:scale-95 transition shadow">
+            Agendar consulta
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- Informativo -->
+    <div class="bg-cyan-50 border border-cyan-100 rounded-2xl p-4">
+      <h3 class="font-bold text-cyan-800 mb-1.5">Por que ir à UBS?</h3>
+      <p class="text-sm text-cyan-700 leading-relaxed">
         A UBS oferece consultas gratuitas, exames preventivos e acompanhamento contínuo da sua saúde — sem custo.
       </p>
     </div>
