@@ -1,9 +1,13 @@
 <div class="min-h-screen bg-gray-50 flex flex-col">
 
   <!-- Header -->
-  <div class="bg-yellow-500 text-white px-5 pt-10 pb-6">
+  <div class="bg-yellow-500 text-white px-5 pt-12 pb-6">
     <div class="flex items-center gap-3 mb-1">
-      <a routerLink="/" class="text-white text-lg">←</a>
+      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-yellow-400 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+        </svg>
+      </a>
       <h1 class="text-xl font-bold">Lembretes</h1>
     </div>
     <p class="text-yellow-100 text-sm">Não esqueça de cuidar de você</p>
@@ -12,39 +16,57 @@
   <div class="px-4 py-5 space-y-4">
 
     <!-- Sucesso -->
-    <div *ngIf="successMessage"
-      class="bg-green-100 border border-green-300 text-green-800 text-sm font-medium px-4 py-3 rounded-xl">
-      ✅ {{ successMessage }}
-    </div>
+    @if (successMessage) {
+      <div class="bg-green-50 border border-green-200 text-green-800 text-sm font-medium px-4 py-3 rounded-xl flex items-center gap-2">
+        <svg class="w-4 h-4 flex-shrink-0 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg>
+        {{ successMessage }}
+      </div>
+    }
 
     <!-- Adicionar novo -->
     <div class="bg-white rounded-2xl p-4 shadow-sm space-y-3">
       <h2 class="font-bold text-gray-800">Novo lembrete</h2>
       <input type="text" [(ngModel)]="novoTexto" placeholder="Ex: Tomar remédio"
-        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 text-gray-800" />
+        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 focus:bg-white transition text-gray-800" />
       <input type="time" [(ngModel)]="novoHorario"
-        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 text-gray-800" />
+        class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-yellow-400 focus:bg-white transition text-gray-800" />
       <button (click)="adicionar()"
-        class="w-full bg-yellow-500 text-white py-3 rounded-2xl font-semibold active:scale-95 transition">
-        + Adicionar
+        class="w-full bg-yellow-500 text-white py-3 rounded-2xl font-semibold active:scale-95 transition flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+        </svg>
+        Adicionar lembrete
       </button>
     </div>
 
     <!-- Lista de lembretes -->
     <div class="space-y-2">
       <h2 class="font-bold text-gray-800 mb-1">Seus lembretes</h2>
-      <div *ngFor="let l of lembretes; let i = index"
-        class="bg-white rounded-2xl px-4 py-3 shadow-sm flex items-center gap-3">
-        <span class="text-yellow-500 text-xl">🔔</span>
-        <div class="flex-1">
-          <p class="text-sm font-semibold text-gray-800">{{ l.texto }}</p>
-          <p *ngIf="l.horario" class="text-xs text-gray-400">{{ l.horario }}</p>
+      @for (l of lembretes; track l.texto; let i = $index) {
+        <div class="bg-white rounded-2xl px-4 py-3.5 shadow-sm flex items-center gap-3 border border-gray-100">
+          <div class="w-9 h-9 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-semibold text-gray-800">{{ l.texto }}</p>
+            @if (l.horario) {
+              <p class="text-xs text-gray-400 mt-0.5">{{ l.horario }}</p>
+            }
+          </div>
+          <button (click)="remover(i)" class="w-7 h-7 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+            </svg>
+          </button>
         </div>
-        <button (click)="remover(i)" class="text-gray-300 hover:text-red-400 text-lg transition">✕</button>
-      </div>
-      <p *ngIf="lembretes.length === 0" class="text-sm text-gray-400 text-center py-4">
-        Nenhum lembrete cadastrado.
-      </p>
+      }
+      @if (lembretes.length === 0) {
+        <p class="text-sm text-gray-400 text-center py-6">Nenhum lembrete cadastrado.</p>
+      }
     </div>
 
   </div>

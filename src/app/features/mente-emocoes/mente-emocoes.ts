@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 interface HumorOpcao {
   valor: string;
-  emoji: string;
   label: string;
 }
 
@@ -25,11 +24,11 @@ export class MenteEmocoesComponent {
   humorSelecionado = 'neutro';
 
   opcoes: HumorOpcao[] = [
-    { valor: 'mal',    emoji: '😞', label: 'Mal' },
-    { valor: 'ruim',   emoji: '😕', label: 'Ruim' },
-    { valor: 'neutro', emoji: '😐', label: 'Neutro' },
-    { valor: 'bem',    emoji: '🙂', label: 'Bem' },
-    { valor: 'otimo',  emoji: '😄', label: 'Ótimo' },
+    { valor: 'mal',    label: 'Mal' },
+    { valor: 'ruim',   label: 'Ruim' },
+    { valor: 'neutro', label: 'Neutro' },
+    { valor: 'bem',    label: 'Bem' },
+    { valor: 'otimo',  label: 'Ótimo' },
   ];
 
   conteudos: Conteudo[] = [

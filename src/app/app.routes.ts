@@ -10,6 +10,7 @@ import { SaudeSexualComponent } from './features/saude-sexual/saude-sexual';
 import { CorpoExamesComponent } from './features/corpo-exames/corpo-exames';
 import { authGuard } from './core/services/guards/auth.guard';
 import { LoginComponent } from './features/login/login';
+import { AcessoComponent } from './features/acesso/acesso';
 import { PerfilComponent } from './features/perfil/perfil';
 import { BoasVindasComponent } from './features/boas-vindas/boas-vindas';
 import { MinhaSaudeComponent } from './features/minha-saude/minha-saude';
@@ -17,6 +18,7 @@ import { LembretesComponent } from './features/lembretes/lembretes';
 
 export const routes: Routes = [
   { path: 'boas-vindas', component: BoasVindasComponent },
+  { path: 'acesso',      component: AcessoComponent },
   { path: 'login',       component: LoginComponent },
 
   { path: '',                component: HomeComponent,             canActivate: [authGuard] },

@@ -1,126 +1,166 @@
 <div class="min-h-screen bg-white flex flex-col">
 
   <!-- Header -->
-  <div class="bg-blue-700 text-white px-5 pt-10 pb-5">
+  <div class="bg-blue-700 text-white px-5 pt-12 pb-5">
     <div class="flex items-center gap-3 mb-3">
-      <button (click)="voltar()" class="text-white text-lg">←</button>
+      <button (click)="voltar()" class="p-1 -ml-1 rounded-xl active:bg-blue-600 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+        </svg>
+      </button>
       <h1 class="text-lg font-bold">Meu Check-up</h1>
     </div>
     <p class="text-blue-200 text-sm mb-3">Seção {{ secaoAtual }} de {{ totalSecoes }} · {{ secao.titulo }}</p>
-    <!-- Barra de progresso -->
-    <div class="w-full bg-blue-500 rounded-full h-2">
-      <div class="bg-white rounded-full h-2 transition-all duration-300" [style.width.%]="progresso"></div>
+    <div class="w-full bg-blue-500 rounded-full h-1.5">
+      <div class="bg-white rounded-full h-1.5 transition-all duration-300" [style.width.%]="progresso"></div>
     </div>
   </div>
 
   <!-- Conteúdo da seção -->
   <div class="flex-1 px-5 py-6">
 
-    <p class="text-blue-600 text-xs font-bold uppercase tracking-wide mb-4">{{ secao.titulo }}</p>
+    <p class="text-blue-600 text-xs font-bold uppercase tracking-wider mb-5">{{ secao.titulo }}</p>
 
     <!-- Seção 1: Dados Básicos -->
-    <div *ngIf="secaoAtual === 1" class="space-y-6">
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Qual é o seu peso? (kg)</p>
-        <input type="number" [(ngModel)]="model.peso" placeholder="Ex: 80"
-          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-400 text-gray-800" />
+    @if (secaoAtual === 1) {
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Qual é o seu peso? (kg)</p>
+          <input type="number" [(ngModel)]="model.peso" placeholder="Ex: 80"
+            class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-400 focus:bg-white transition text-gray-800" />
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Qual é a sua altura? (cm)</p>
+          <input type="number" [(ngModel)]="model.altura" placeholder="Ex: 175"
+            class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-400 focus:bg-white transition text-gray-800" />
+        </div>
       </div>
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Qual é a sua altura? (cm)</p>
-        <input type="number" [(ngModel)]="model.altura" placeholder="Ex: 175"
-          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-400 text-gray-800" />
-      </div>
-    </div>
+    }
 
     <!-- Seção 2: Condições de Saúde -->
-    <div *ngIf="secaoAtual === 2" class="space-y-6">
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Você tem pressão alta?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.pressaoAlta === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="pressaoAlta" [value]="op.v" [(ngModel)]="model.pressaoAlta" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
+    @if (secaoAtual === 2) {
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Você tem pressão alta?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.pressaoAlta === op.v"
+                [class.bg-blue-50]="model.pressaoAlta === op.v"
+                [class.border-gray-200]="model.pressaoAlta !== op.v"
+                [class.bg-white]="model.pressaoAlta !== op.v">
+                <input type="radio" name="pressaoAlta" [value]="op.v" [(ngModel)]="model.pressaoAlta" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Você tem diabetes?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.diabetes === op.v"
+                [class.bg-blue-50]="model.diabetes === op.v"
+                [class.border-gray-200]="model.diabetes !== op.v"
+                [class.bg-white]="model.diabetes !== op.v">
+                <input type="radio" name="diabetes" [value]="op.v" [(ngModel)]="model.diabetes" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
         </div>
       </div>
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Você tem diabetes?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.diabetes === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="diabetes" [value]="op.v" [(ngModel)]="model.diabetes" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
-        </div>
-      </div>
-    </div>
+    }
 
     <!-- Seção 3: Hábitos -->
-    <div *ngIf="secaoAtual === 3" class="space-y-6">
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Você fuma?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'nao',l:'Não'},{v:'asVezes',l:'Às vezes'},{v:'todoDia',l:'Todo dia'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.fuma === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="fuma" [value]="op.v" [(ngModel)]="model.fuma" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
+    @if (secaoAtual === 3) {
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Você fuma?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'nao',l:'Não'},{v:'asVezes',l:'Às vezes'},{v:'todoDia',l:'Todo dia'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.fuma === op.v"
+                [class.bg-blue-50]="model.fuma === op.v"
+                [class.border-gray-200]="model.fuma !== op.v"
+                [class.bg-white]="model.fuma !== op.v">
+                <input type="radio" name="fuma" [value]="op.v" [(ngModel)]="model.fuma" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Você bebe álcool?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'nao',l:'Não'},{v:'asVezes',l:'Às vezes'},{v:'quaseTodoDia',l:'Quase todo dia'},{v:'todoDia',l:'Todo dia'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.alcool === op.v"
+                [class.bg-blue-50]="model.alcool === op.v"
+                [class.border-gray-200]="model.alcool !== op.v"
+                [class.bg-white]="model.alcool !== op.v">
+                <input type="radio" name="alcool" [value]="op.v" [(ngModel)]="model.alcool" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
         </div>
       </div>
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Você bebe álcool?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'nao',l:'Não'},{v:'asVezes',l:'Às vezes'},{v:'quaseTodoDia',l:'Quase todo dia'},{v:'todoDia',l:'Todo dia'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.alcool === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="alcool" [value]="op.v" [(ngModel)]="model.alcool" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
-        </div>
-      </div>
-    </div>
+    }
 
     <!-- Seção 4: Atividade Física -->
-    <div *ngIf="secaoAtual === 4" class="space-y-6">
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Você se considera sedentário?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.sedentario === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="sedentario" [value]="op.v" [(ngModel)]="model.sedentario" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
+    @if (secaoAtual === 4) {
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Você se considera sedentário?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.sedentario === op.v"
+                [class.bg-blue-50]="model.sedentario === op.v"
+                [class.border-gray-200]="model.sedentario !== op.v"
+                [class.bg-white]="model.sedentario !== op.v">
+                <input type="radio" name="sedentario" [value]="op.v" [(ngModel)]="model.sedentario" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    }
 
     <!-- Seção 5: Bem-estar Mental -->
-    <div *ngIf="secaoAtual === 5" class="space-y-6">
-      <div>
-        <p class="font-semibold text-gray-800 mb-3">Como você está se sentindo ultimamente?</p>
-        <div class="space-y-2">
-          <label *ngFor="let op of [{v:'mal',l:'Mal'},{v:'ruim',l:'Ruim'},{v:'neutro',l:'Neutro'},{v:'bem',l:'Bem'},{v:'otimo',l:'Ótimo'}]"
-            class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-            [ngClass]="model.humor === op.v ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white'">
-            <input type="radio" name="humor" [value]="op.v" [(ngModel)]="model.humor" class="accent-blue-600" />
-            <span class="text-gray-800">{{ op.l }}</span>
-          </label>
+    @if (secaoAtual === 5) {
+      <div class="space-y-6">
+        <div>
+          <p class="font-semibold text-gray-800 mb-3">Como você está se sentindo ultimamente?</p>
+          <div class="space-y-2">
+            @for (op of [{v:'mal',l:'Mal'},{v:'ruim',l:'Ruim'},{v:'neutro',l:'Neutro'},{v:'bem',l:'Bem'},{v:'otimo',l:'Ótimo'}]; track op.v) {
+              <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
+                [class.border-blue-600]="model.humor === op.v"
+                [class.bg-blue-50]="model.humor === op.v"
+                [class.border-gray-200]="model.humor !== op.v"
+                [class.bg-white]="model.humor !== op.v">
+                <input type="radio" name="humor" [value]="op.v" [(ngModel)]="model.humor" class="accent-blue-600" />
+                <span class="text-gray-800">{{ op.l }}</span>
+              </label>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    }
 
   </div>
 
   <!-- Botão próxima seção -->
   <div class="px-5 pb-8">
     <button (click)="avancar()"
-      class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold shadow-md active:scale-95 transition">
-      {{ secaoAtual < totalSecoes ? 'Próxima seção →' : 'Ver resultado' }}
+      class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold shadow-md active:scale-95 transition flex items-center justify-center gap-2">
+      {{ secaoAtual < totalSecoes ? 'Próxima seção' : 'Ver resultado' }}
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+      </svg>
     </button>
   </div>
 

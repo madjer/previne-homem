@@ -1,10 +1,10 @@
 {
   "name": "Previne Homem",
-  "short_name": "Previne",
-  "description": "Aplicativo de apoio e informacao para saude do homem.",
+  "short_name": "Previne Homem",
+  "description": "Cuide da sua saúde com o Previne Homem — check-up, hábitos e bem-estar masculino.",
   "display": "standalone",
-  "theme_color": "#1e40af",
-  "background_color": "#eff6ff",
+  "theme_color": "#15803d",
+  "background_color": "#f0fdf4",
   "scope": "./",
   "start_url": "./",
   "icons": [
@@ -39,8 +39,20 @@
       "purpose": "maskable any"
     },
     {
+      "src": "icons/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "icons/icon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-256x256.png",
+      "sizes": "256x256",
       "type": "image/png",
       "purpose": "maskable any"
     },
@@ -55,6 +67,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
