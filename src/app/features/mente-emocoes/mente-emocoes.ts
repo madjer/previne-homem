@@ -32,8 +32,10 @@ export class MenteEmocoesComponent {
   ];
 
   conteudos: Conteudo[] = [
-    { tag: 'Estresse', titulo: 'Como lidar com a pressão do dia a dia', tempo: '5 min de leitura' },
-    { tag: 'Sono',     titulo: 'Dicas para melhorar a qualidade do sono', tempo: '4 min de leitura' },
+    { tag: 'Ansiedade',  titulo: 'Preocupação excessiva, coração acelerado, tensão muscular, inquietação', tempo: '5 min de leitura' },
+    { tag: 'Depressão',  titulo: 'Tristeza persistente, perda de interesse, cansaço sem causa, isolamento', tempo: '6 min de leitura' },
+    { tag: 'Estresse',   titulo: 'Irritabilidade, dores de cabeça frequentes, sensação de esgotamento', tempo: '5 min de leitura' },
+    { tag: 'Insônia',    titulo: 'Dificuldade para dormir, acordar várias vezes, não se sentir descansado', tempo: '4 min de leitura' },
   ];
 
   selecionar(valor: string) {

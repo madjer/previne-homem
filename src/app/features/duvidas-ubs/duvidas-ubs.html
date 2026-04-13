@@ -10,14 +10,14 @@
       </a>
       <h1 class="text-xl font-bold">Minha UBS</h1>
     </div>
-    <p class="text-cyan-200 text-sm">Encontre a unidade de saúde mais próxima</p>
+    <p class="text-cyan-200 text-sm">UBS de Caucaia-CE — toque para localizar no mapa</p>
   </div>
 
   <div class="px-4 py-5 space-y-4">
 
     <!-- Busca por CEP -->
     <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-      <label class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">Buscar por CEP</label>
+      <label class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">Buscar UBS mais próxima pelo CEP</label>
       <div class="flex gap-2">
         <input
           [(ngModel)]="cep"
@@ -56,10 +56,10 @@
       }
     </div>
 
-    <!-- Mapa — sempre visível -->
+    <!-- Mapa -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-      <!-- Info da UBS (só quando encontrada) -->
+      <!-- UBS encontrada pelo CEP -->
       @if (ubsEncontrada) {
         <div class="p-4 border-b border-gray-100">
           <div class="flex items-start gap-3">
@@ -69,6 +69,7 @@
               </svg>
             </div>
             <div class="flex-1 min-w-0">
+              <p class="text-xs text-cyan-600 font-semibold mb-0.5">UBS mais próxima</p>
               <p class="text-sm font-bold text-gray-800 leading-tight">{{ ubsNome }}</p>
               @if (ubsEndereco) {
                 <p class="text-xs text-gray-500 mt-0.5">{{ ubsEndereco }}</p>
@@ -90,36 +91,70 @@
         </div>
       }
 
-      <!-- Mapa Leaflet — div sempre no DOM -->
-      <div class="relative" style="height: 220px;">
+      <!-- Mapa Leaflet -->
+      <div class="relative" style="height: 280px;">
         <div id="mapa-ubs" class="w-full h-full"></div>
 
-        @if (ubsEncontrada) {
-          <button (click)="verNoMaps()"
-            class="absolute bottom-2 right-2 z-[1000] bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-xl shadow border border-gray-100 flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-            </svg>
-            Abrir no Maps
-          </button>
+        <button (click)="verNoMaps()"
+          class="absolute bottom-2 right-2 z-[1000] bg-white text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-xl shadow border border-gray-100 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+          </svg>
+          Abrir no Maps
+        </button>
+      </div>
+    </div>
+
+    <!-- Lista de UBS por região -->
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">
+        🏥 UBS de Caucaia — toque para ver no mapa
+      </p>
+
+      <div class="space-y-4">
+        @for (regiao of regioes; track regiao.regiao) {
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+            <!-- Cabeçalho da região -->
+            <div class="bg-cyan-50 px-4 py-2.5 border-b border-cyan-100">
+              <p class="text-xs font-bold text-cyan-700 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
+                </svg>
+                {{ regiao.regiao }}
+              </p>
+            </div>
+
+            <!-- Unidades -->
+            <div class="divide-y divide-gray-50">
+              @for (ubs of regiao.unidades; track ubs.nome) {
+                <button (click)="focarUbs(ubs)"
+                  class="w-full text-left px-4 py-3 flex items-start gap-3 active:bg-cyan-50 transition">
+                  <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-cyan-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/>
+                  </svg>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-800 leading-tight">{{ ubs.nome }}</p>
+                    <p class="text-xs text-gray-500 mt-0.5">{{ ubs.endereco }}</p>
+                  </div>
+                  <svg class="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                  </svg>
+                </button>
+              }
+            </div>
+
+          </div>
         }
       </div>
-
-      @if (ubsEncontrada) {
-        <div class="p-4 border-t border-gray-100">
-          <button (click)="agendarConsulta()"
-            class="w-full bg-cyan-700 text-white py-3.5 rounded-2xl font-semibold active:scale-95 transition shadow">
-            Agendar consulta
-          </button>
-        </div>
-      }
     </div>
 
     <!-- Informativo -->
-    <div class="bg-cyan-50 border border-cyan-100 rounded-2xl p-4">
+    <div class="bg-cyan-50 border border-cyan-100 rounded-2xl p-4 mb-4">
       <h3 class="font-bold text-cyan-800 mb-1.5">Por que ir à UBS?</h3>
       <p class="text-sm text-cyan-700 leading-relaxed">
-        A UBS oferece consultas gratuitas, exames preventivos e acompanhamento contínuo da sua saúde — sem custo.
+        A UBS oferece consultas gratuitas, exames preventivos, vacinas e acompanhamento contínuo da sua saúde — sem custo e sem plano de saúde.
       </p>
     </div>
 

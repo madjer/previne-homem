@@ -78,5 +78,54 @@
       </div>
     </div>
 
+    <!-- Seção informativa: fatores de risco -->
+    <div>
+      <h2 class="font-bold text-gray-800 mb-3">Entenda os riscos</h2>
+      <div class="space-y-2">
+        @for (info of infoHabitos; track info.id) {
+          <div class="bg-white rounded-2xl shadow-sm overflow-hidden border"
+            [class.border-gray-300]="info.id === 'tabagismo' && !info.aberto"
+            [class.border-amber-200]="info.id === 'alcool' && !info.aberto"
+            [class.border-green-200]="info.id === 'sedentarismo' && !info.aberto"
+            [ngClass]="info.aberto ? info.corBorda : ''">
+
+            <button (click)="toggleInfo(info)"
+              class="w-full flex items-center gap-3 px-4 py-4 text-left"
+              [ngClass]="info.aberto ? info.corBg : 'bg-white'">
+              <span class="text-2xl flex-shrink-0">{{ info.icone }}</span>
+              <span class="flex-1 font-semibold text-sm" [ngClass]="info.cor">{{ info.titulo }}</span>
+              <svg class="w-5 h-5 text-gray-400 transition-transform flex-shrink-0"
+                [class.rotate-180]="info.aberto"
+                fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </button>
+
+            @if (info.aberto) {
+              <div class="px-4 pb-4 space-y-3 text-sm border-t border-gray-100">
+                <p class="text-gray-700 leading-relaxed pt-3">{{ info.sabiaQue }}</p>
+
+                <ul class="space-y-1.5">
+                  @for (dica of info.dicas; track dica) {
+                    <li class="flex items-start gap-2 text-gray-700">
+                      <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                      </svg>
+                      <span>{{ dica }}</span>
+                    </li>
+                  }
+                </ul>
+
+                <div class="rounded-xl p-3" [ngClass]="info.corBg">
+                  <p class="text-xs font-bold mb-1" [ngClass]="info.cor">Lembre-se</p>
+                  <p class="text-gray-700 text-xs italic">{{ info.lembre }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
   </div>
 </div>

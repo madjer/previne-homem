@@ -1,66 +1,295 @@
 <div class="min-h-screen bg-gray-50 flex flex-col">
 
   <!-- Header -->
-  <div class="bg-blue-700 text-white px-5 pt-12 pb-6">
-    <h1 class="text-xl font-bold">Meu Resultado</h1>
-    <p class="text-blue-200 text-sm mt-1">Orientações personalizadas para você</p>
+  <div class="bg-green-700 text-white px-5 pt-12 pb-6">
+    <div class="flex items-center gap-3 mb-1">
+      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-green-600 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+        </svg>
+      </a>
+      <h1 class="text-xl font-bold">Meu Resultado</h1>
+    </div>
+    <p class="text-green-200 text-sm mt-1">Registre e acompanhe sua saúde</p>
   </div>
 
-  <div class="flex-1 px-4 py-5 space-y-3">
+  <div class="flex-1 px-4 py-5 space-y-5">
 
-    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Riscos Identificados</p>
-
-    @for (risco of riscos; track risco.titulo) {
-      <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4"
-        [class.border-red-400]="risco.nivel === 'red'"
-        [class.border-yellow-400]="risco.nivel === 'yellow'"
-        [class.border-green-400]="risco.nivel === 'green'">
-
-        <div class="flex items-center gap-2.5 mb-1.5">
-          @if (risco.nivel === 'red') {
-            <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
-            </svg>
-          }
-          @if (risco.nivel === 'yellow') {
-            <svg class="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
-            </svg>
-          }
-          @if (risco.nivel === 'green') {
-            <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-            </svg>
-          }
-          <span class="font-bold text-gray-800">{{ risco.titulo }}</span>
-        </div>
-
-        <p class="text-sm text-gray-600 mb-3 ml-6">{{ risco.descricao }}</p>
-
-        <span class="ml-6 inline-block text-xs font-semibold px-3 py-1 rounded-full"
-          [class.bg-red-100]="risco.nivel === 'red'"
-          [class.text-red-700]="risco.nivel === 'red'"
-          [class.bg-yellow-100]="risco.nivel === 'yellow'"
-          [class.text-yellow-700]="risco.nivel === 'yellow'"
-          [class.bg-green-100]="risco.nivel === 'green'"
-          [class.text-green-700]="risco.nivel === 'green'">
-          {{ risco.badge }}
-        </span>
+    <!-- Sem check-up -->
+    @if (!checkupData) {
+      <div class="bg-white rounded-2xl p-5 text-center shadow-sm border border-gray-100">
+        <p class="text-gray-500 text-sm mb-4">Faça seu check-up para ver orientações personalizadas.</p>
+        <a routerLink="/checkup"
+          class="inline-block bg-green-700 text-white px-6 py-3 rounded-xl font-semibold text-sm active:scale-95 transition">
+          Fazer Check-up
+        </a>
       </div>
     }
 
-  </div>
+    <!-- ═══ PRESSÃO ARTERIAL ═══ -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 bg-red-50 border-b border-red-100 flex items-center gap-2">
+        <span class="text-xl">💓</span>
+        <p class="font-bold text-sm text-red-700">Pressão Arterial</p>
+      </div>
+      <div class="px-4 py-4">
 
-  <!-- Botões -->
-  <div class="px-4 pb-8 space-y-3">
-    <a routerLink="/minha-saude"
-      class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold text-center block active:scale-95 transition shadow-md">
-      Ver orientações completas
-    </a>
+        <!-- Última medição -->
+        @if (pressoes.length > 0) {
+          <div class="mb-3 flex items-center gap-3">
+            <div class="flex-1">
+              <p class="text-2xl font-bold text-gray-800">
+                {{ pressoes[0].sistolica }}/{{ pressoes[0].diastolica }}
+                <span class="text-sm font-normal text-gray-500">mmHg</span>
+              </p>
+              <p class="text-xs mt-0.5"
+                [ngClass]="classificarPressao(pressoes[0].sistolica, pressoes[0].diastolica).cor">
+                {{ classificarPressao(pressoes[0].sistolica, pressoes[0].diastolica).label }}
+              </p>
+            </div>
+            <p class="text-xs text-gray-400">{{ formatarData(pressoes[0].data) }}</p>
+          </div>
+        }
+
+        <!-- Formulário -->
+        <div class="flex gap-2 items-end">
+          <div class="flex-1">
+            <p class="text-xs text-gray-500 mb-1">Sistólica</p>
+            <input type="number" [(ngModel)]="novaSistolica" placeholder="120"
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-red-400 transition"/>
+          </div>
+          <div class="flex-1">
+            <p class="text-xs text-gray-500 mb-1">Diastólica</p>
+            <input type="number" [(ngModel)]="novaDiastolica" placeholder="80"
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-red-400 transition"/>
+          </div>
+          <button (click)="registrarPressao()"
+            class="bg-red-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold active:scale-95 transition flex-shrink-0">
+            Salvar
+          </button>
+        </div>
+
+        <!-- Histórico compacto -->
+        @if (pressoes.length > 1) {
+          <div class="mt-3 border-t border-gray-100 pt-3 space-y-1.5">
+            @for (p of pressoes.slice(1, 5); track p.data) {
+              <div class="flex justify-between text-xs text-gray-500">
+                <span>{{ p.sistolica }}/{{ p.diastolica }} mmHg</span>
+                <span>{{ formatarData(p.data) }}</span>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ═══ PESO / IMC ═══ -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 bg-yellow-50 border-b border-yellow-100 flex items-center gap-2">
+        <span class="text-xl">⚖️</span>
+        <p class="font-bold text-sm text-yellow-700">Peso e IMC</p>
+      </div>
+      <div class="px-4 py-4">
+
+        <!-- IMC atual -->
+        @if (imcClassificacao) {
+          <div class="mb-3 flex items-center gap-4">
+            <div>
+              <p class="text-2xl font-bold text-gray-800">
+                {{ imcAtual.toFixed(1) }}
+                <span class="text-sm font-normal text-gray-500">IMC</span>
+              </p>
+              <p class="text-xs mt-0.5" [ngClass]="imcClassificacao.cor">
+                {{ imcClassificacao.label }}
+              </p>
+            </div>
+            <div class="text-right ml-auto">
+              <p class="text-lg font-semibold text-gray-700">{{ pesoAtual }} kg</p>
+              @if (checkupData?.altura) {
+                <p class="text-xs text-gray-400">{{ checkupData!.altura }} cm</p>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Formulário -->
+        <div class="flex gap-2">
+          <div class="flex-1">
+            <p class="text-xs text-gray-500 mb-1">Peso atual (kg)</p>
+            <input type="number" [(ngModel)]="novoPeso" placeholder="Ex: 80"
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-yellow-400 transition"/>
+          </div>
+          <div class="flex items-end">
+            <button (click)="registrarPeso()"
+              class="bg-yellow-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold active:scale-95 transition">
+              Salvar
+            </button>
+          </div>
+        </div>
+
+        <!-- Histórico -->
+        @if (pesos.length > 1) {
+          <div class="mt-3 border-t border-gray-100 pt-3 space-y-1.5">
+            @for (p of pesos.slice(1, 5); track p.data) {
+              <div class="flex justify-between text-xs text-gray-500">
+                <span>{{ p.valor }} kg — IMC {{ calcIMC(p.valor).toFixed(1) }}</span>
+                <span>{{ formatarData(p.data) }}</span>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ═══ GLICEMIA ═══ -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 bg-blue-50 border-b border-blue-100 flex items-center gap-2">
+        <span class="text-xl">🩸</span>
+        <p class="font-bold text-sm text-blue-700">Glicemia (açúcar no sangue)</p>
+      </div>
+      <div class="px-4 py-4">
+
+        <!-- Última medição -->
+        @if (glicemias.length > 0) {
+          <div class="mb-3 flex items-center gap-3">
+            <div class="flex-1">
+              <p class="text-2xl font-bold text-gray-800">
+                {{ glicemias[0].valor }}
+                <span class="text-sm font-normal text-gray-500">mg/dL</span>
+              </p>
+              <p class="text-xs mt-0.5" [ngClass]="classificarGlicemia(glicemias[0].valor).cor">
+                {{ classificarGlicemia(glicemias[0].valor).label }}
+              </p>
+            </div>
+            <p class="text-xs text-gray-400">{{ formatarData(glicemias[0].data) }}</p>
+          </div>
+        }
+
+        <!-- Formulário -->
+        <div class="flex gap-2">
+          <div class="flex-1">
+            <p class="text-xs text-gray-500 mb-1">Glicemia em jejum (mg/dL)</p>
+            <input type="number" [(ngModel)]="novaGlicemia" placeholder="Ex: 95"
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-blue-400 transition"/>
+          </div>
+          <div class="flex items-end">
+            <button (click)="registrarGlicemia()"
+              class="bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold active:scale-95 transition">
+              Salvar
+            </button>
+          </div>
+        </div>
+
+        <!-- Histórico -->
+        @if (glicemias.length > 1) {
+          <div class="mt-3 border-t border-gray-100 pt-3 space-y-1.5">
+            @for (g of glicemias.slice(1, 5); track g.data) {
+              <div class="flex justify-between text-xs text-gray-500">
+                <span>{{ g.valor }} mg/dL</span>
+                <span>{{ formatarData(g.data) }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <p class="text-xs text-gray-400 mt-3">Normal em jejum: abaixo de 100 mg/dL</p>
+      </div>
+    </div>
+
+    <!-- ═══ HUMOR DO DIA ═══ -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-4 py-3 bg-rose-50 border-b border-rose-100 flex items-center gap-2">
+        <span class="text-xl">🧠</span>
+        <p class="font-bold text-sm text-rose-700">Como você está hoje?</p>
+      </div>
+      <div class="px-4 py-4">
+        <div class="flex justify-between gap-1">
+          @for (op of humorOpcoes; track op.nivel) {
+            <button (click)="registrarHumor(op.nivel)"
+              class="flex-1 flex flex-col items-center gap-1 py-2.5 rounded-xl border-2 transition"
+              [class.border-rose-500]="humorHoje === op.nivel"
+              [class.bg-rose-50]="humorHoje === op.nivel"
+              [class.border-gray-100]="humorHoje !== op.nivel">
+              <span class="text-xl">{{ op.emoji }}</span>
+              <span class="text-xs text-gray-500">{{ op.label }}</span>
+            </button>
+          }
+        </div>
+
+        <!-- Últimos 7 dias -->
+        @if (humores.length > 0) {
+          <div class="mt-3 border-t border-gray-100 pt-3">
+            <p class="text-xs text-gray-400 mb-2">Últimos registros</p>
+            <div class="flex gap-2 flex-wrap">
+              @for (h of humores.slice(0, 7); track h.data) {
+                <div class="flex flex-col items-center gap-0.5">
+                  <span class="text-base">{{ humorOpcoes[h.nivel - 1].emoji }}</span>
+                  <span class="text-xs text-gray-400">{{ formatarData(h.data) }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ═══ ORIENTAÇÕES ═══ -->
+    @if (!mostrarOrientacoes) {
+      <button (click)="verOrientacoes()"
+        class="w-full bg-green-700 text-white py-4 rounded-2xl font-semibold text-center active:scale-95 transition shadow-md flex items-center justify-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
+        </svg>
+        Ver orientações personalizadas
+      </button>
+    }
+
+    @if (mostrarOrientacoes) {
+      <div id="orientacoes-section" class="space-y-4">
+
+        <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Orientações para você</p>
+
+        @for (o of orientacoes; track o.titulo) {
+          <div class="rounded-2xl overflow-hidden border shadow-sm" [ngClass]="o.corBorda">
+            <div class="px-4 py-3 flex items-center gap-3" [ngClass]="o.corBg">
+              <span class="text-2xl">{{ o.icone }}</span>
+              <span class="font-bold text-sm" [ngClass]="o.cor">{{ o.titulo }}</span>
+            </div>
+            <div class="bg-white px-4 py-3 space-y-2">
+              @for (dica of o.dicas; track dica) {
+                <div class="flex items-start gap-2 text-sm text-gray-700">
+                  <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                  <span>{{ dica }}</span>
+                </div>
+              }
+              <a [routerLink]="o.rota"
+                class="mt-2 flex items-center gap-1.5 text-sm font-semibold pt-2 border-t border-gray-100"
+                [ngClass]="o.cor">
+                {{ o.rotaLabel }}
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- Botão UBS -->
     <a routerLink="/minha-ubs"
-      class="w-full border-2 border-blue-700 text-blue-700 py-4 rounded-2xl font-semibold text-center block active:scale-95 transition">
-      Agendar na UBS
+      class="w-full border-2 border-green-700 text-green-700 py-4 rounded-2xl font-semibold text-center block active:scale-95 transition">
+      Procure uma UBS
     </a>
+
+    <div class="pb-4"></div>
+
   </div>
 
 </div>
