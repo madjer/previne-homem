@@ -1,138 +1,101 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { PerfilService } from '../../core/services/perfil.service';
+import { GamificationService } from '../../core/services/gamification';
 import { Auth, authState } from '@angular/fire/auth';
 import { Subject, takeUntil, take } from 'rxjs';
-import { NotificationComponent } from '../../shared/components/notification/notification';
 
 @Component({
   standalone: true,
   selector: 'app-perfil',
-  imports: [CommonModule, FormsModule, RouterModule, NotificationComponent],
-  template: `
-  <div class="p-4 min-h-screen bg-gray-100">
-    <h1 class="text-xl font-bold text-blue-900 mb-4">Meu Perfil</h1>
-
-    <div *ngIf="isLoading" class="bg-white p-6 rounded-xl shadow flex flex-col items-center justify-center gap-3">
-      <div class="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-700"></div>
-      <p class="text-gray-600 text-sm">Carregando perfil...</p>
-    </div>
-
-    <div *ngIf="!isLoading" class="bg-white p-4 rounded-xl shadow space-y-4">
-      <app-notification [message]="successMessage" type="success"></app-notification>
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600">Nome</label>
-        <p class="w-full p-2 border rounded bg-gray-50 text-gray-700">{{ userName || '-' }}</p>
-      </div>
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600">E-mail</label>
-        <p class="w-full p-2 border rounded bg-gray-50 text-gray-700">{{ userEmail || '-' }}</p>
-      </div>
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600">Data de nascimento</label>
-        <input type="date" [(ngModel)]="perfil.dataNascimento" class="w-full p-2 border rounded">
-      </div>
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600">Peso (kg)</label>
-        <input type="number" [(ngModel)]="perfil.peso" class="w-full p-2 border rounded">
-      </div>
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600">Altura (cm)</label>
-        <input type="number" [(ngModel)]="perfil.altura" class="w-full p-2 border rounded">
-      </div>
-      <div class="space-y-2">
-        <p class="text-sm font-semibold text-gray-700">Condições</p>
-        <label class="flex items-center gap-2 text-sm text-gray-700">
-          <input type="checkbox" [(ngModel)]="perfil.hipertenso" class="h-4 w-4">
-          Hipertenso
-        </label>
-        <label class="flex items-center gap-2 text-sm text-gray-700">
-          <input type="checkbox" [(ngModel)]="perfil.diabetico" class="h-4 w-4">
-          Diabetico
-        </label>
-        <label class="flex items-center gap-2 text-sm text-gray-500">
-          <input type="checkbox" [checked]="isIdoso()" disabled class="h-4 w-4">
-          Idoso (60+)
-        </label>
-      </div>
-
-      <button (click)="salvar()" class="w-full bg-blue-700 text-white p-3 rounded-xl">
-        Salvar
-      </button>
-
-      <a routerLink="/" class="block text-center text-blue-700 font-semibold">
-        Voltar
-      </a>
-    </div>
-  </div>
-  `
+  imports: [CommonModule, FormsModule, RouterModule],
+  templateUrl: './perfil.html',
 })
-export class PerfilComponent {
+export class PerfilComponent implements OnInit, OnDestroy {
 
   perfil: any = {};
   userName = '';
   userEmail = '';
   isLoading = true;
   successMessage = '';
+  private primeiroSalvamento = false;
   private destroy$ = new Subject<void>();
+
+  condicoesSaude = [
+    { campo: 'hipertenso',        label: 'Hipertensão arterial',      opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}] },
+    { campo: 'diabetico',         label: 'Diabetes mellitus',         opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}] },
+    { campo: 'doencaCardiaca',    label: 'Doença cardíaca',           opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}] },
+    { campo: 'colesterolElevado', label: 'Colesterol elevado',        opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}] },
+    { campo: 'depressaoAnsiedade',label: 'Depressão ou ansiedade',    opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'},{v:'naoSei',l:'Não sei'}] },
+    { campo: 'cancer',            label: 'Histórico de câncer',       opcoes: [{v:'sim',l:'Sim'},{v:'nao',l:'Não'}] },
+  ];
 
   constructor(
     private service: PerfilService,
+    private game: GamificationService,
     private router: Router,
     private auth: Auth,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
-  async ngOnInit() {
-    authState(this.auth)
-      .pipe(
-        take(1),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(async user => {
-        if (!user) {
-          this.isLoading = false;
-          this.cdr.detectChanges();
-          return;
-        }
-        this.isLoading = true;
-        try {
-          const data: any = await this.service.obterPorUid(user.uid);
-          this.userName = user.displayName || '';
-          this.userEmail = user.email || '';
-          if (data) {
-            this.perfil = {
-              ...data,
-              dataNascimento: this.normalizeDateInput(data.dataNascimento)
-            };
-          }
-          if (!data) {
-            this.perfil = {
-              dataNascimento: '',
-              peso: null,
-              altura: null,
-              hipertenso: false,
-              diabetico: false
-            };
-          }
-        } finally {
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        }
-      });
+  ngOnInit() {
+    authState(this.auth).pipe(take(1), takeUntil(this.destroy$)).subscribe(async user => {
+      if (!user) { this.isLoading = false; this.cdr.detectChanges(); return; }
+      this.isLoading = true;
+      try {
+        const data: any = await this.service.obterPorUid(user.uid);
+        this.userName = user.displayName || '';
+        this.userEmail = user.email || '';
+        this.primeiroSalvamento = !data;
+        this.perfil = data
+          ? { ...data, dataNascimento: this.normalizeDateInput(data.dataNascimento) }
+          : { dataNascimento: '', peso: null, altura: null };
+      } finally {
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  get idadeTexto(): string {
+    const idade = this.calcularIdade(this.perfil?.dataNascimento);
+    if (idade === null) return '';
+    if (idade >= 60) return `${idade} anos — Idoso`;
+    return `${idade} anos`;
   }
 
   async salvar() {
     await this.service.salvar(this.perfil);
-    this.successMessage = 'Perfil salvo com sucesso.';
+    const pontos = this.primeiroSalvamento ? 50 : 10;
+    this.game.add(pontos, this.primeiroSalvamento ? 'Perfil de saúde preenchido pela primeira vez' : 'Perfil de saúde atualizado');
+    this.primeiroSalvamento = false;
+    this.successMessage = 'Perfil salvo com sucesso!';
     this.cdr.detectChanges();
     setTimeout(() => {
       this.successMessage = '';
       this.cdr.detectChanges();
       this.router.navigate(['/']);
-    }, 2500);
+    }, 2000);
+  }
+
+  private calcularIdade(dataNascimento: string): number | null {
+    if (!dataNascimento || typeof dataNascimento !== 'string') return null;
+    const parts = dataNascimento.split('-').map(Number);
+    if (parts.length !== 3 || parts.some(n => Number.isNaN(n))) return null;
+    const birth = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+    const hoje = new Date();
+    const todayUtc = new Date(Date.UTC(hoje.getUTCFullYear(), hoje.getUTCMonth(), hoje.getUTCDate()));
+    let age = todayUtc.getUTCFullYear() - birth.getUTCFullYear();
+    const m = todayUtc.getUTCMonth() - birth.getUTCMonth();
+    if (m < 0 || (m === 0 && todayUtc.getUTCDate() < birth.getUTCDate())) age--;
+    return age >= 0 ? age : null;
   }
 
   private normalizeDateInput(value: any): string {
@@ -144,27 +107,5 @@ export class PerfilComponent {
       return d instanceof Date ? d.toISOString().slice(0, 10) : '';
     }
     return '';
-  }
-
-  isIdoso(): boolean {
-    const dateStr = this.perfil?.dataNascimento;
-    if (!dateStr || typeof dateStr !== 'string') return false;
-    const parts = dateStr.split('-').map(p => Number(p));
-    if (parts.length !== 3 || parts.some(n => Number.isNaN(n))) return false;
-    const [year, month, day] = parts;
-    const birth = new Date(Date.UTC(year, month - 1, day));
-    const today = new Date();
-    const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
-    let age = todayUtc.getUTCFullYear() - birth.getUTCFullYear();
-    const m = todayUtc.getUTCMonth() - birth.getUTCMonth();
-    if (m < 0 || (m === 0 && todayUtc.getUTCDate() < birth.getUTCDate())) {
-      age--;
-    }
-    return age >= 60;
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

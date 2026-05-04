@@ -17,4 +17,10 @@ export class GamificationService {
     localStorage.setItem(this.KEY, String(total));
     this.historico.registrar({ tipo: 'habito', descricao, pontos: valor });
   }
+
+  gastar(valor: number, descricao: string) {
+    const total = Math.max(0, this.pontos - valor);
+    localStorage.setItem(this.KEY, String(total));
+    this.historico.registrar({ tipo: 'habito', descricao: `Resgate: ${descricao}`, pontos: -valor });
+  }
 }

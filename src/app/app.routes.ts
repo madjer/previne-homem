@@ -17,6 +17,8 @@ import { MinhaSaudeComponent } from './features/minha-saude/minha-saude';
 import { LembretesComponent } from './features/lembretes/lembretes';
 import { HistoricoComponent } from './features/historico/historico';
 import { PrevencaoComponent } from './features/prevencao/prevencao';
+import { ChatbotComponent } from './features/chatbot/chatbot';
+import { LojinhaComponent } from './features/lojinha/lojinha';
 
 export const routes: Routes = [
   { path: 'boas-vindas', component: BoasVindasComponent },
@@ -38,4 +40,6 @@ export const routes: Routes = [
   { path: 'perfil',          component: PerfilComponent,           canActivate: [authGuard] },
   { path: 'historico',       component: HistoricoComponent,        canActivate: [authGuard] },
   { path: 'prevencao',       component: PrevencaoComponent,        canActivate: [authGuard] },
+  { path: 'chatbot',         component: ChatbotComponent,          canActivate: [authGuard] },
+  { path: 'lojinha',         component: LojinhaComponent,          canActivate: [authGuard] },
 ];
