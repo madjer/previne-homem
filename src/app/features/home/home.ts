@@ -172,7 +172,9 @@ Perfil do usuário logado:
   private async chamarGemini(): Promise<string> {
     const apiKey = environment.geminiApiKey;
     const systemPrompt = this.buildSystemPrompt();
-    const contents = this.mensagens.map(m => ({
+    // Gemini exige que o histórico comece com uma mensagem do usuário
+    const firstUser = this.mensagens.findIndex(m => m.role === 'user');
+    const contents = this.mensagens.slice(firstUser).map(m => ({
       role: m.role,
       parts: [{ text: m.texto }],
     }));
