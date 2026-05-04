@@ -6,6 +6,7 @@ import { Auth, authState } from '@angular/fire/auth';
 import { PerfilService } from '../../core/services/perfil.service';
 import { GamificationService } from '../../core/services/gamification';
 import { Subject, takeUntil, take } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface Mensagem {
   role: 'user' | 'model';
@@ -34,9 +35,6 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
   mensagens: Mensagem[] = [];
   inputTexto = '';
   carregando = false;
-  apiKey = '';
-  configurandoChave = false;
-  chaveTemp = '';
   pontosAdicionadosHoje = false;
 
   private perfil: any = null;
@@ -51,7 +49,6 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit() {
-    this.apiKey = localStorage.getItem('gemini_api_key') || '';
     const pontosDia = localStorage.getItem('chatbot_pontos_' + new Date().toDateString());
     this.pontosAdicionadosHoje = !!pontosDia;
 
@@ -60,7 +57,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.nomeUsuario = user.displayName?.split(' ')[0] || '';
       const data = await this.perfilService.obterPorUid(user.uid);
       if (data) this.perfil = data;
-      if (this.apiKey) this.enviarBoasVindas();
+      this.enviarBoasVindas();
     });
   }
 
@@ -76,25 +73,9 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.destroy$.complete();
   }
 
-  get temChave(): boolean { return !!this.apiKey; }
-
-  abrirConfigurarChave() {
-    this.chaveTemp = this.apiKey;
-    this.configurandoChave = true;
-  }
-
-  salvarChave() {
-    const chave = this.chaveTemp.trim();
-    if (!chave) return;
-    this.apiKey = chave;
-    localStorage.setItem('gemini_api_key', chave);
-    this.configurandoChave = false;
-    if (this.mensagens.length === 0) this.enviarBoasVindas();
-  }
-
   async enviar() {
     const texto = this.inputTexto.trim();
-    if (!texto || this.carregando || !this.apiKey) return;
+    if (!texto || this.carregando) return;
     this.inputTexto = '';
     this.mensagens.push({ role: 'user', texto });
     this.deveRolar = true;
@@ -110,14 +91,14 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
       const resposta = await this.chamarGemini();
       this.mensagens.push({ role: 'model', texto: resposta });
     } catch {
-      this.mensagens.push({ role: 'model', texto: 'Desculpe, ocorreu um erro. Verifique sua chave de API e tente novamente.' });
+      this.mensagens.push({ role: 'model', texto: 'Desculpe, ocorreu um erro ao contatar o assistente. Tente novamente.' });
     } finally {
       this.carregando = false;
       this.deveRolar = true;
     }
   }
 
-  private async enviarBoasVindas() {
+  private enviarBoasVindas() {
     const nome = this.nomeUsuario || 'usuário';
     this.mensagens.push({
       role: 'model',
@@ -167,7 +148,7 @@ Perfil do usuário logado:
     }));
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${environment.geminiApiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
