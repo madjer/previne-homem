@@ -180,7 +180,7 @@ Perfil do usuário logado:
     }));
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -192,7 +192,10 @@ Perfil do usuário logado:
       },
     );
 
-    if (!res.ok) throw new Error(`API error ${res.status}`);
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`API ${res.status}: ${body}`);
+    }
     const data = await res.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Não foi possível obter uma resposta.';
   }
