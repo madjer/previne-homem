@@ -115,8 +115,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
     try {
       const resposta = await this.chamarGemini();
       this.mensagens.push({ role: 'model', texto: resposta });
-    } catch {
-      this.mensagens.push({ role: 'model', texto: 'Desculpe, ocorreu um erro ao contatar o assistente. Tente novamente.' });
+    } catch (err: any) {
+      this.mensagens.push({ role: 'model', texto: `Erro: ${err?.message ?? String(err)}` });
     } finally {
       this.carregando = false;
       this.deveRolar = true;
@@ -180,7 +180,7 @@ Perfil do usuário logado:
     }));
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
