@@ -28,10 +28,8 @@
       <stop offset="100%" style="stop-color:#0f2027;stop-opacity:0"/>
     </radialGradient>
   </defs>
-  <rect width="500" height="500" fill="url(#bg)"/>
-  <rect width="500" height="500" fill="url(#innerGlow)"/>
-  <circle cx="250" cy="210" r="155" fill="none" stroke="#00c9a7" stroke-width="1.5" opacity="0.2"/>
-  <circle cx="250" cy="210" r="135" fill="none" stroke="#00c9a7" stroke-width="1" opacity="0.12"/>
+  <circle cx="250" cy="210" r="155" fill="none" stroke="#00c9a7" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="250" cy="210" r="135" fill="none" stroke="#00c9a7" stroke-width="1" opacity="0.2"/>
   <circle cx="250" cy="108" r="36" fill="url(#figureGrad)" filter="url(#softShadow)"/>
   <path d="M190 165 Q210 155 250 152 Q290 155 310 165 L318 255 Q300 248 250 248 Q200 248 182 255 Z"
     fill="url(#figureGrad)" filter="url(#softShadow)"/>
