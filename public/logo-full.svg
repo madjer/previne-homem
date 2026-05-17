@@ -1,31 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
   <defs>
-    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#16a34a"/>
-      <stop offset="100%" stop-color="#14532d"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f2027"/>
+      <stop offset="50%" style="stop-color:#203a43"/>
+      <stop offset="100%" style="stop-color:#2c5364"/>
     </linearGradient>
-    <linearGradient id="shield2" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#dcfce7"/>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00c9a7"/>
+      <stop offset="100%" style="stop-color:#0087cc"/>
     </linearGradient>
+    <linearGradient id="figureGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#a8d8f0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softShadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <radialGradient id="innerGlow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" style="stop-color:#00c9a7;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#0f2027;stop-opacity:0"/>
+    </radialGradient>
   </defs>
-  <!-- Icon background -->
-  <rect x="0" y="4" width="52" height="52" rx="12" fill="url(#bg2)"/>
-  <!-- Shield -->
-  <path d="M26 10 L39 16 L39 30 Q39 39 26 46 Q13 39 13 30 L13 16 Z"
-        fill="url(#shield2)"/>
-  <!-- ECG line -->
-  <polyline
-    points="17,30 21,30 23,24 25,36 27,27 29,32 31,30 35,30"
-    fill="none"
-    stroke="#15803d"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-  <!-- "Previne" text -->
-  <text x="62" y="27" font-family="system-ui, -apple-system, sans-serif"
-        font-size="18" font-weight="700" fill="#14532d" letter-spacing="-0.3">Previne</text>
-  <!-- "Homem" text -->
-  <text x="62" y="46" font-family="system-ui, -apple-system, sans-serif"
-        font-size="14" font-weight="400" fill="#16a34a" letter-spacing="0.5">HOMEM</text>
+  <rect width="500" height="500" rx="100" fill="url(#bg)"/>
+  <rect width="500" height="500" rx="100" fill="url(#innerGlow)"/>
+  <circle cx="250" cy="210" r="155" fill="none" stroke="#00c9a7" stroke-width="1.5" opacity="0.2"/>
+  <circle cx="250" cy="210" r="135" fill="none" stroke="#00c9a7" stroke-width="1" opacity="0.12"/>
+  <circle cx="250" cy="108" r="36" fill="url(#figureGrad)" filter="url(#softShadow)"/>
+  <path d="M190 165 Q210 155 250 152 Q290 155 310 165 L318 255 Q300 248 250 248 Q200 248 182 255 Z"
+    fill="url(#figureGrad)" filter="url(#softShadow)"/>
+  <path d="M205 248 L196 320 L222 320 L250 268 L278 320 L304 320 L295 248 Z"
+    fill="url(#figureGrad)" filter="url(#softShadow)"/>
+  <path d="M190 175 Q155 185 130 210 Q122 220 128 228 Q135 236 144 228 Q164 208 195 200"
+    fill="url(#figureGrad)" stroke="none"/>
+  <path d="M310 175 Q345 185 370 210 Q378 220 372 228 Q365 236 356 228 Q336 208 305 200"
+    fill="url(#figureGrad)" stroke="none"/>
+  <g filter="url(#glow)" transform="translate(250, 205)">
+    <path d="M0 8 C0 8 -28 -10 -28 -26 C-28 -40 -14 -46 0 -34 C14 -46 28 -40 28 -26 C28 -10 0 8 0 8 Z"
+          fill="url(#heartGrad)" opacity="0.95"/>
+    <polyline points="-22,-26 -14,-26 -10,-36 -4,-18 2,-40 8,-14 14,-26 22,-26"
+              fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  </g>
+  <line x1="120" y1="345" x2="380" y2="345" stroke="#00c9a7" stroke-width="1.5" opacity="0.3"/>
+  <text x="250" y="390"
+    font-family="'Trebuchet MS', sans-serif"
+    font-size="42" font-weight="900" letter-spacing="8"
+    text-anchor="middle" fill="white">PREVINE</text>
+  <text x="250" y="430"
+    font-family="'Trebuchet MS', sans-serif"
+    font-size="24" font-weight="400" letter-spacing="16"
+    text-anchor="middle" fill="#00c9a7">HOMEM</text>
+  <circle cx="80" cy="80" r="3" fill="#00c9a7" opacity="0.4"/>
+  <circle cx="95" cy="80" r="3" fill="#00c9a7" opacity="0.25"/>
+  <circle cx="420" cy="80" r="3" fill="#00c9a7" opacity="0.4"/>
+  <circle cx="405" cy="80" r="3" fill="#00c9a7" opacity="0.25"/>
+  <circle cx="80" cy="420" r="3" fill="#00c9a7" opacity="0.4"/>
+  <circle cx="95" cy="420" r="3" fill="#00c9a7" opacity="0.25"/>
+  <circle cx="420" cy="420" r="3" fill="#00c9a7" opacity="0.4"/>
+  <circle cx="405" cy="420" r="3" fill="#00c9a7" opacity="0.25"/>
 </svg>
