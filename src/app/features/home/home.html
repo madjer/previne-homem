@@ -75,8 +75,8 @@
       @for (msg of mensagens; track $index) {
         @if (msg.role === 'model') {
           <div class="flex items-end gap-2.5 max-w-[86%]">
-            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 mb-1">
-              <img src="logo.svg" class="w-5 h-5" alt="">
+            <div class="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 mb-1">
+              <img src="logo.svg" class="w-full h-full object-cover" alt="">
             </div>
             <div class="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-gray-100">
               <p class="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{{ msg.texto }}</p>
