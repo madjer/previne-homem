@@ -22,9 +22,9 @@ export class NotificationComponent {
       case 'error':
         return 'rounded-lg bg-red-50 text-red-800 text-sm px-3 py-2 border border-red-200';
       case 'info':
-        return 'rounded-lg bg-blue-50 text-blue-800 text-sm px-3 py-2 border border-blue-200';
+        return 'rounded-lg bg-blue-50 text-blue-600 text-sm px-3 py-2 border border-blue-100';
       default:
-        return 'rounded-lg bg-blue-50 text-blue-800 text-sm px-3 py-2 border border-blue-200';
+        return 'rounded-lg bg-blue-50 text-blue-600 text-sm px-3 py-2 border border-blue-100';
     }
   }
 }

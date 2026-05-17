@@ -1,10 +1,10 @@
 <div class="min-h-screen flex flex-col items-center justify-center px-6 py-10"
-  style="background: linear-gradient(160deg, #0c1a2e 0%, #1e3a5f 60%, #1565c0 100%)">
+  style="background: linear-gradient(160deg, #1565c0 0%, #1976d2 60%, #2196f3 100%)">
 
   <div class="w-full bg-white rounded-3xl p-6 shadow-xl">
 
     <!-- Botão voltar -->
-    <a routerLink="/acesso" class="flex items-center gap-1.5 text-blue-600 text-sm mb-5 active:opacity-70 transition w-fit">
+    <a routerLink="/acesso" class="flex items-center gap-1.5 text-blue-500 text-sm mb-5 active:opacity-70 transition w-fit">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
       </svg>
@@ -12,7 +12,7 @@
     </a>
 
     <!-- Título -->
-    <h2 class="text-2xl font-bold text-blue-900 mb-1">
+    <h2 class="text-2xl font-bold text-blue-700 mb-1">
       {{ modo === 'cadastro' ? 'Criar nova conta' : 'Acessar minha conta' }}
     </h2>
     <p class="text-gray-500 text-sm mb-6">
@@ -39,21 +39,21 @@
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1.5">Nome</label>
           <input type="text" name="nome" [(ngModel)]="name" placeholder="João Silva"
-            class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-600 focus:bg-white transition text-gray-800" />
+            class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:bg-white transition text-gray-800" />
         </div>
       }
 
       <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 mb-1.5">E-mail</label>
         <input type="email" name="email" [(ngModel)]="email" placeholder="joao@email.com"
-          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-600 focus:bg-white transition text-gray-800"
+          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:bg-white transition text-gray-800"
           autocomplete="email" />
       </div>
 
       <div class="mb-6">
         <label class="block text-sm font-medium text-gray-700 mb-1.5">Senha</label>
         <input type="password" name="password" [(ngModel)]="password" placeholder="••••••••"
-          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-600 focus:bg-white transition text-gray-800"
+          class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:bg-white transition text-gray-800"
           autocomplete="current-password" />
       </div>
 
@@ -67,7 +67,7 @@
       }
 
       <button type="submit" [disabled]="isLoading"
-        class="w-full bg-blue-800 text-white py-4 rounded-2xl font-semibold shadow-md active:scale-95 transition disabled:opacity-60">
+        class="w-full bg-blue-600 text-white py-4 rounded-2xl font-semibold shadow-md active:scale-95 transition disabled:opacity-60">
         @if (!isLoading) {
           {{ modo === 'cadastro' ? 'Criar conta' : 'Entrar' }}
         } @else {
@@ -87,15 +87,15 @@
 
     <!-- Instruções de instalação -->
     @if (isIOS) {
-      <div class="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-3.5 text-xs text-blue-900">
+      <div class="mt-4 rounded-2xl border border-blue-50 bg-blue-50 p-3.5 text-xs text-blue-700">
         <p class="font-semibold mb-0.5">Instalar no iPhone</p>
-        <p class="text-blue-700">Abra no Safari, toque em Compartilhar e selecione "Adicionar à Tela de Início".</p>
+        <p class="text-blue-500">Abra no Safari, toque em Compartilhar e selecione "Adicionar à Tela de Início".</p>
       </div>
     }
     @if (isAndroid) {
-      <div class="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-3.5 text-xs text-blue-900">
+      <div class="mt-4 rounded-2xl border border-blue-50 bg-blue-50 p-3.5 text-xs text-blue-700">
         <p class="font-semibold mb-0.5">Instalar no Android</p>
-        <p class="text-blue-700">Abra no Chrome, toque no menu e selecione "Instalar app" ou "Adicionar a tela inicial".</p>
+        <p class="text-blue-500">Abra no Chrome, toque no menu e selecione "Instalar app" ou "Adicionar a tela inicial".</p>
       </div>
     }
     @if (isDesktop) {

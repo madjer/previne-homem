@@ -48,15 +48,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   private unsubscribeAuth?: () => void;
 
   atalhos = [
-    { label: 'Check-up',    route: '/checkup',           cor: 'bg-blue-100 text-blue-700' },
-    { label: 'Resultado',   route: '/resultado-checkup', cor: 'bg-blue-100 text-blue-700' },
+    { label: 'Check-up',    route: '/checkup',           cor: 'bg-blue-50 text-blue-500' },
+    { label: 'Resultado',   route: '/resultado-checkup', cor: 'bg-blue-50 text-blue-500' },
     { label: 'Lembretes',   route: '/lembretes',         cor: 'bg-yellow-100 text-yellow-700' },
     { label: 'Lojinha',     route: '/lojinha',           cor: 'bg-amber-100 text-amber-700' },
-    { label: 'Minha UBS',   route: '/minha-ubs',         cor: 'bg-blue-100 text-blue-700' },
+    { label: 'Minha UBS',   route: '/minha-ubs',         cor: 'bg-blue-50 text-blue-500' },
     { label: 'Hábitos',     route: '/habitos',           cor: 'bg-purple-100 text-purple-700' },
     { label: 'Saúde Mental',route: '/mente',             cor: 'bg-rose-100 text-rose-700' },
     { label: 'Prevenção',   route: '/prevencao',         cor: 'bg-lime-100 text-lime-700' },
-    { label: 'Histórico',   route: '/historico',         cor: 'bg-blue-100 text-blue-700' },
+    { label: 'Histórico',   route: '/historico',         cor: 'bg-blue-50 text-blue-500' },
   ];
 
   constructor(

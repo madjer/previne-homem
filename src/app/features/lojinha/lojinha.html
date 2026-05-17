@@ -28,8 +28,8 @@
   @if (mensagem) {
     <div class="mx-4 mt-4 px-4 py-3 rounded-xl text-sm font-medium"
       [class.bg-blue-50]="mensagemTipo === 'sucesso'"
-      [class.border-blue-200]="mensagemTipo === 'sucesso'"
-      [class.text-blue-800]="mensagemTipo === 'sucesso'"
+      [class.border-blue-100]="mensagemTipo === 'sucesso'"
+      [class.text-blue-600]="mensagemTipo === 'sucesso'"
       [class.bg-red-50]="mensagemTipo === 'erro'"
       [class.border-red-200]="mensagemTipo === 'erro'"
       [class.text-red-800]="mensagemTipo === 'erro'"
@@ -68,10 +68,10 @@
         [class.bg-white]="!consultaRegistradaEsseMes"
         [class.border-gray-100]="!consultaRegistradaEsseMes"
         [class.bg-blue-50]="consultaRegistradaEsseMes"
-        [class.border-blue-200]="consultaRegistradaEsseMes">
+        [class.border-blue-100]="consultaRegistradaEsseMes">
         <span class="text-2xl">🏥</span>
         <div class="flex-1">
-          <p class="text-sm font-semibold" [class.text-gray-800]="!consultaRegistradaEsseMes" [class.text-blue-700]="consultaRegistradaEsseMes">
+          <p class="text-sm font-semibold" [class.text-gray-800]="!consultaRegistradaEsseMes" [class.text-blue-500]="consultaRegistradaEsseMes">
             {{ consultaRegistradaEsseMes ? '✓ Consulta registrada este mês' : 'Fui à consulta na UBS' }}
           </p>
           <p class="text-xs text-gray-400">+30 pontos por mês</p>
@@ -82,10 +82,10 @@
         [class.bg-white]="!exameRegistradoEsseMes"
         [class.border-gray-100]="!exameRegistradoEsseMes"
         [class.bg-blue-50]="exameRegistradoEsseMes"
-        [class.border-blue-200]="exameRegistradoEsseMes">
+        [class.border-blue-100]="exameRegistradoEsseMes">
         <span class="text-2xl">🔬</span>
         <div class="flex-1">
-          <p class="text-sm font-semibold" [class.text-gray-800]="!exameRegistradoEsseMes" [class.text-blue-700]="exameRegistradoEsseMes">
+          <p class="text-sm font-semibold" [class.text-gray-800]="!exameRegistradoEsseMes" [class.text-blue-500]="exameRegistradoEsseMes">
             {{ exameRegistradoEsseMes ? '✓ Exame registrado este mês' : 'Realizei um exame preventivo' }}
           </p>
           <p class="text-xs text-gray-400">+20 pontos por mês</p>
@@ -116,7 +116,7 @@
               <div class="flex items-center justify-between mt-3">
                 <span class="font-bold text-amber-600">⭐ {{ r.custo }} pontos</span>
                 @if (r.resgatada) {
-                  <span class="text-xs text-blue-600 font-semibold flex items-center gap-1">
+                  <span class="text-xs text-blue-500 font-semibold flex items-center gap-1">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                     </svg>

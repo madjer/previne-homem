@@ -30,7 +30,7 @@ interface NavItem {
   `,
   styles: [`
     .nav-item { color: #9ca3af; min-height: 56px; }
-    .nav-item.nav-active { color: #166534; }
+    .nav-item.nav-active { color: #1976d2; }
     .nav-item.nav-active .nav-icon { transform: scale(1.1); }
     .nav-icon { transition: transform 0.15s ease; }
   `]

@@ -86,9 +86,9 @@ export class HabitosComponent {
       id: 'sedentarismo',
       titulo: 'Sedentarismo',
       icone: '🏃',
-      cor: 'text-blue-700',
+      cor: 'text-blue-500',
       corBg: 'bg-blue-50',
-      corBorda: 'border-blue-200',
+      corBorda: 'border-blue-100',
       sabiaQue: 'A falta de atividade física é um dos maiores riscos à saúde, comparável ao tabagismo. Movimentar o corpo previne diabetes, hipertensão, obesidade, depressão e muito mais.',
       dicas: [
         'OMS recomenda: 150 min de atividade moderada por semana',

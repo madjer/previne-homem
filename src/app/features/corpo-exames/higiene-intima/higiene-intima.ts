@@ -13,7 +13,7 @@ import { ChicoAvatarComponent } from '../../../shared/components/chico-avatar/ch
       frase="Parceiro, cuidar da higiene íntima evita inflamações e doenças sérias."
     ></app-chico-avatar>
 
-    <h1 class="text-xl font-bold text-blue-900 mt-4 mb-4">
+    <h1 class="text-xl font-bold text-blue-700 mt-4 mb-4">
       Câncer de pênis e higiene íntima
     </h1>
 
@@ -25,7 +25,7 @@ import { ChicoAvatarComponent } from '../../../shared/components/chico-avatar/ch
       </p>
 
       <div>
-        <h2 class="font-semibold text-blue-800 mb-2">Como fazer a higiene corretamente</h2>
+        <h2 class="font-semibold text-blue-600 mb-2">Como fazer a higiene corretamente</h2>
         <ul class="list-disc pl-5 space-y-1">
           <li>Durante o banho, puxe a pele com cuidado para expor a região.</li>
           <li>Lave a área com água e sabonete neutro.</li>
@@ -43,11 +43,11 @@ import { ChicoAvatarComponent } from '../../../shared/components/chico-avatar/ch
         </ul>
       </div>
 
-      <button routerLink="/" class="w-full bg-blue-700 text-white p-3 rounded-xl">
+      <button routerLink="/" class="w-full bg-blue-500 text-white p-3 rounded-xl">
         Entendi, vou cuidar melhor
       </button>
 
-      <a routerLink="/" class="block text-center text-blue-700 font-semibold">
+      <a routerLink="/" class="block text-center text-blue-500 font-semibold">
         Voltar ao menu
       </a>
     </div>

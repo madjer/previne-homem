@@ -36,7 +36,7 @@ export class LojinhaComponent implements OnInit {
       custo: 100,
       tipo: 'institucional',
       corBg: 'bg-blue-50',
-      corIcone: 'text-blue-600',
+      corIcone: 'text-blue-500',
     },
     {
       id: 'desconto_parceiro',
@@ -46,7 +46,7 @@ export class LojinhaComponent implements OnInit {
       custo: 80,
       tipo: 'parceria',
       corBg: 'bg-blue-50',
-      corIcone: 'text-blue-600',
+      corIcone: 'text-blue-500',
     },
     {
       id: 'desconto_academia',
