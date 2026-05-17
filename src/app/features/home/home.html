@@ -1,117 +1,108 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="flex flex-col bg-gray-50" style="min-height: 100dvh">
 
   <!-- Header -->
-  <div class="bg-green-700 text-white px-5 pt-12 pb-4 flex-shrink-0">
-    <div class="flex justify-between items-center mb-3">
-      <div class="flex items-center gap-2.5">
-        <img src="logo.svg" alt="Previne Homem" class="w-8 h-8 rounded-xl" />
+  <div class="bg-blue-900 text-white px-5 pt-12 pb-4 flex-shrink-0">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Avatar -->
+        <div class="w-11 h-11 rounded-full overflow-hidden border-2 border-blue-600 flex-shrink-0 bg-blue-700">
+          @if (fotoUsuario) {
+            <img [src]="fotoUsuario" alt="Foto" class="w-full h-full object-cover" referrerpolicy="no-referrer">
+          } @else {
+            <div class="w-full h-full flex items-center justify-center text-white text-lg font-bold">
+              {{ nomeUsuario ? nomeUsuario[0].toUpperCase() : '?' }}
+            </div>
+          }
+        </div>
         <div>
-          <p class="text-green-200 text-xs">Olá{{ nomeUsuario ? ', ' + nomeUsuario : '' }}</p>
-          <h1 class="text-base font-bold leading-tight">Bora se cuidar hoje?</h1>
+          <p class="text-blue-300 text-xs">Olá{{ nomeUsuario ? ', ' + nomeUsuario : '' }}!</p>
+          <p class="font-bold text-sm leading-tight">Como podemos cuidar de você hoje?</p>
         </div>
       </div>
-      <div class="flex gap-1.5">
-        <a routerLink="/perfil" class="flex items-center gap-1 text-green-200 text-xs border border-green-500 px-2.5 py-1.5 rounded-xl active:bg-green-600 transition">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-          </svg>
-          Perfil
-        </a>
-        <button (click)="logout()" class="text-green-200 text-xs border border-green-500 px-2.5 py-1.5 rounded-xl active:bg-green-600 transition">Sair</button>
-      </div>
+      <!-- Botão sair -->
+      <button (click)="logout()"
+        class="text-blue-400 text-xs border border-blue-700 px-2.5 py-1.5 rounded-xl active:bg-blue-800 transition">
+        Sair
+      </button>
     </div>
 
-    <!-- Badge de pontos -->
-    <div class="inline-flex items-center gap-1.5 bg-yellow-400 text-yellow-900 font-semibold text-xs px-3 py-1.5 rounded-full">
+    <!-- Badge pontos -->
+    <a routerLink="/lojinha"
+      class="inline-flex items-center gap-1.5 bg-yellow-400 text-yellow-900 font-bold text-xs px-3 py-1.5 rounded-full mt-3 active:scale-95 transition">
       <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
         <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd"/>
       </svg>
-      {{ pontos }} pontos
-    </div>
-  </div>
-
-  <!-- Atalhos rápidos (scroll horizontal) -->
-  <div class="flex-shrink-0 overflow-x-auto bg-white border-b border-gray-100 shadow-sm">
-    <div class="flex gap-2 px-4 py-2.5" style="width: max-content">
-      @for (a of atalhos; track a.route) {
-        <a [routerLink]="a.route"
-          class="text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap active:scale-95 transition"
-          [ngClass]="a.cor">
-          {{ a.label }}
-        </a>
-      }
-    </div>
+      {{ pontos }} PREVINE PONTOS
+    </a>
   </div>
 
   <!-- Loading -->
   @if (isLoading) {
     <div class="flex-1 flex items-center justify-center">
-      <div class="h-8 w-8 animate-spin rounded-full border-4 border-green-200 border-t-green-700"></div>
+      <div class="flex flex-col items-center gap-3">
+        <div class="h-8 w-8 animate-spin rounded-full border-4 border-blue-200 border-t-blue-800"></div>
+        <p class="text-sm text-gray-400">Carregando...</p>
+      </div>
     </div>
   }
 
   <!-- CTA: preencher perfil -->
   @if (!isLoading && !perfilPreenchido) {
-    <div class="flex-1 flex flex-col items-center justify-center px-8 text-center gap-5">
-      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
-        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+    <div class="flex-1 flex flex-col items-center justify-center px-8 text-center gap-5 pb-20">
+      <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center border-4 border-blue-100">
+        <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
         </svg>
       </div>
       <div>
-        <h2 class="font-bold text-gray-800 text-lg mb-2">Complete seu perfil</h2>
+        <h2 class="font-bold text-gray-800 text-xl mb-2">Complete seu perfil</h2>
         <p class="text-sm text-gray-500 leading-relaxed">
-          Para ativar o assistente de saúde personalizado, preencha primeiro seus dados e condições de saúde.
+          Para ativar o Assistente de Saúde personalizado, preencha seus dados e condições de saúde.
         </p>
       </div>
       <a routerLink="/perfil"
-        class="bg-green-700 text-white px-8 py-4 rounded-2xl font-semibold active:scale-95 transition shadow-md text-sm">
-        Preencher perfil agora
+        class="w-full bg-blue-800 text-white py-4 rounded-2xl font-semibold active:scale-95 transition shadow-lg text-sm text-center">
+        Preencher meu perfil agora
       </a>
-      <p class="text-xs text-gray-400">Você ganha 50 pontos ao completar o perfil</p>
+      <p class="text-xs text-gray-400">Você ganha <strong>50 pontos</strong> ao completar o perfil</p>
     </div>
   }
 
   <!-- Chat -->
   @if (!isLoading && perfilPreenchido) {
-    <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4" style="padding-bottom: 88px">
+    <div class="flex-1 overflow-y-auto px-4 py-4 space-y-4" style="padding-bottom: 140px">
 
       @for (msg of mensagens; track $index) {
-
-        <!-- Mensagem do assistente -->
         @if (msg.role === 'model') {
-          <div class="flex items-start gap-2.5 max-w-[86%]">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center flex-shrink-0">
-              <span class="text-sm">🩺</span>
+          <div class="flex items-end gap-2.5 max-w-[86%]">
+            <div class="w-8 h-8 rounded-full bg-blue-800 flex items-center justify-center flex-shrink-0 mb-1">
+              <img src="logo.svg" class="w-5 h-5" alt="">
             </div>
-            <div class="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm border border-gray-100">
+            <div class="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-gray-100">
               <p class="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{{ msg.texto }}</p>
             </div>
           </div>
         }
-
-        <!-- Mensagem do usuário -->
         @if (msg.role === 'user') {
           <div class="flex justify-end">
-            <div class="bg-green-700 text-white rounded-2xl rounded-tr-sm px-4 py-3 max-w-[80%] shadow-sm">
+            <div class="bg-blue-800 text-white rounded-2xl rounded-br-sm px-4 py-3 max-w-[80%] shadow-sm">
               <p class="text-sm leading-relaxed">{{ msg.texto }}</p>
             </div>
           </div>
         }
-
       }
 
-      <!-- Digitando... -->
+      <!-- Digitando -->
       @if (carregando) {
-        <div class="flex items-start gap-2.5">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 to-teal-600 flex items-center justify-center flex-shrink-0">
-            <span class="text-sm">🩺</span>
+        <div class="flex items-end gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-blue-800 flex items-center justify-center flex-shrink-0 mb-1">
+            <img src="logo.svg" class="w-5 h-5" alt="">
           </div>
-          <div class="bg-white rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm border border-gray-100">
+          <div class="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm border border-gray-100">
             <div class="flex gap-1.5 items-center h-5">
-              <span class="w-2 h-2 bg-green-400 rounded-full animate-bounce" style="animation-delay:0ms"></span>
-              <span class="w-2 h-2 bg-green-400 rounded-full animate-bounce" style="animation-delay:150ms"></span>
-              <span class="w-2 h-2 bg-green-400 rounded-full animate-bounce" style="animation-delay:300ms"></span>
+              <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay:0ms"></span>
+              <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay:150ms"></span>
+              <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay:300ms"></span>
             </div>
           </div>
         </div>
@@ -120,16 +111,18 @@
       <div #chatFim></div>
     </div>
 
-    <!-- Input fixo no rodapé -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-3 z-10">
+    <!-- Input fixo -->
+    <div class="fixed bottom-14 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2.5 z-10"
+      style="padding-bottom: calc(0.625rem + env(safe-area-inset-bottom, 0px))">
       <div class="flex gap-2 items-end max-w-lg mx-auto">
         <textarea [(ngModel)]="inputTexto"
           (keydown.enter)="$event.preventDefault(); enviar()"
-          placeholder="Pergunte sobre saúde, exames, UBS..."
+          placeholder="Pergunte sobre saúde masculina..."
           rows="1"
-          class="flex-1 border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-green-500 focus:bg-white transition resize-none leading-snug max-h-28 overflow-y-auto"></textarea>
+          class="flex-1 border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue-600 focus:bg-white transition resize-none leading-snug max-h-28 overflow-y-auto">
+        </textarea>
         <button (click)="enviar()" [disabled]="carregando || !inputTexto.trim()"
-          class="w-11 h-11 bg-green-700 text-white rounded-xl flex items-center justify-center active:scale-95 transition disabled:opacity-40 flex-shrink-0">
+          class="w-11 h-11 bg-blue-800 text-white rounded-2xl flex items-center justify-center active:scale-95 transition disabled:opacity-40 flex-shrink-0 shadow-md">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
           </svg>

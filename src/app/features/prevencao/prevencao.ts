@@ -62,9 +62,9 @@ export class PrevencaoComponent {
       id: 'comunidade',
       titulo: 'Em Casa e na Comunidade',
       icone: '🏘️',
-      cor: 'text-green-700',
-      corBg: 'bg-green-50',
-      corBorda: 'border-green-200',
+      cor: 'text-blue-700',
+      corBg: 'bg-blue-50',
+      corBorda: 'border-blue-200',
       intro: 'Homens são 4 vezes mais vítimas de assassinato do que mulheres no Brasil. Resolução de conflitos com diálogo salva vidas.',
       itens: [
         'Resolva conflitos com diálogo — violência gera violência',

@@ -24,7 +24,7 @@ export class NotificationComponent {
       case 'info':
         return 'rounded-lg bg-blue-50 text-blue-800 text-sm px-3 py-2 border border-blue-200';
       default:
-        return 'rounded-lg bg-green-50 text-green-800 text-sm px-3 py-2 border border-green-200';
+        return 'rounded-lg bg-blue-50 text-blue-800 text-sm px-3 py-2 border border-blue-200';
     }
   }
 }

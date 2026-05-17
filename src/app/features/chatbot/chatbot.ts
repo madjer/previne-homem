@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -46,6 +46,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     private auth: Auth,
     private perfilService: PerfilService,
     private game: GamificationService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -95,6 +96,7 @@ export class ChatbotComponent implements OnInit, OnDestroy, AfterViewChecked {
     } finally {
       this.carregando = false;
       this.deveRolar = true;
+      this.cdr.detectChanges();
     }
   }
 
@@ -156,7 +158,7 @@ Perfil do usuário logado:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt }] },
-          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+          generationConfig: { maxOutputTokens: 1024, temperature: 0.7, thinkingConfig: { thinkingBudget: 0 } },
           contents,
         }),
       },

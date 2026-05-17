@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chatFim') chatFim!: ElementRef;
 
   nomeUsuario = '';
+  fotoUsuario = '';
   pontos = 0;
   isLoading = true;
   perfilPreenchido = false;
@@ -48,14 +49,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   atalhos = [
     { label: 'Check-up',    route: '/checkup',           cor: 'bg-blue-100 text-blue-700' },
-    { label: 'Resultado',   route: '/resultado-checkup', cor: 'bg-green-100 text-green-700' },
+    { label: 'Resultado',   route: '/resultado-checkup', cor: 'bg-blue-100 text-blue-700' },
     { label: 'Lembretes',   route: '/lembretes',         cor: 'bg-yellow-100 text-yellow-700' },
     { label: 'Lojinha',     route: '/lojinha',           cor: 'bg-amber-100 text-amber-700' },
-    { label: 'Minha UBS',   route: '/minha-ubs',         cor: 'bg-cyan-100 text-cyan-700' },
+    { label: 'Minha UBS',   route: '/minha-ubs',         cor: 'bg-blue-100 text-blue-700' },
     { label: 'Hábitos',     route: '/habitos',           cor: 'bg-purple-100 text-purple-700' },
     { label: 'Saúde Mental',route: '/mente',             cor: 'bg-rose-100 text-rose-700' },
     { label: 'Prevenção',   route: '/prevencao',         cor: 'bg-lime-100 text-lime-700' },
-    { label: 'Histórico',   route: '/historico',         cor: 'bg-teal-100 text-teal-700' },
+    { label: 'Histórico',   route: '/historico',         cor: 'bg-blue-100 text-blue-700' },
   ];
 
   constructor(
@@ -68,11 +69,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit() {
     this.pontosAdicionadosHoje = !!localStorage.getItem('chatbot_pontos_' + new Date().toDateString());
+    this.registrarAcessoDiario();
     this.unsubscribeAuth = onAuthStateChanged(this.auth, async user => {
       try {
         this.pontos = this.game.pontos;
         if (user) {
           this.nomeUsuario = user.displayName?.split(' ')[0] || '';
+          this.fotoUsuario = user.photoURL || '';
           const data = await this.perfilService.obterPorUid(user.uid);
           this.perfil = data || null;
           this.perfilPreenchido = !!this.perfil;
@@ -116,15 +119,35 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
       const resposta = await this.chamarGemini();
       this.mensagens.push({ role: 'model', texto: resposta });
     } catch (err: any) {
-      this.mensagens.push({ role: 'model', texto: `Erro: ${err?.message ?? String(err)}` });
+      this.mensagens.push({ role: 'model', texto: `Desculpe, ocorreu um erro ao contatar o assistente. Tente novamente.` });
     } finally {
       this.carregando = false;
       this.deveRolar = true;
+      this.cdr.detectChanges();
     }
   }
 
   logout() {
     this.authService.logout();
+  }
+
+  private registrarAcessoDiario() {
+    const hoje = new Date().toDateString();
+    if (localStorage.getItem(`acesso_${hoje}`)) return;
+    localStorage.setItem(`acesso_${hoje}`, '1');
+
+    // calcula streak
+    let streak = 0;
+    const d = new Date();
+    for (let i = 0; i < 7; i++) {
+      const chave = `acesso_${d.toDateString()}`;
+      if (i > 0 && !localStorage.getItem(chave)) break;
+      if (i > 0) streak++;
+      d.setDate(d.getDate() - 1);
+    }
+    if (streak >= 6) { // 7 dias consecutivos (hoje + 6 anteriores)
+      this.game.add(25, 'Sequência de 7 dias de acesso');
+    }
   }
 
   private enviarBoasVindas() {
@@ -186,7 +209,7 @@ Perfil do usuário logado:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemPrompt }] },
-          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 },
+          generationConfig: { maxOutputTokens: 1024, temperature: 0.7, thinkingConfig: { thinkingBudget: 0 } },
           contents,
         }),
       },

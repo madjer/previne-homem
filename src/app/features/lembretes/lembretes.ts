@@ -110,11 +110,11 @@ export class LembretesComponent implements OnInit {
       alertas.push({ id: 'colest',    texto: 'Realizar exame de colesterol e triglicerídeos (1x ao ano)', condicao: '40+ anos', pontos: 15, confirmado: false, corBg: 'bg-orange-50', corTexto: 'text-orange-700', icone: '🔬' });
     }
     if (perfil.atividadeFisica === 'sedentario') {
-      alertas.push({ id: 'sed_ativ',  texto: 'Ingressar em atividade física — pergunte à UBS sobre grupos disponíveis', condicao: 'Sedentarismo', pontos: 10, confirmado: false, corBg: 'bg-green-50', corTexto: 'text-green-700', icone: '🏃' });
+      alertas.push({ id: 'sed_ativ',  texto: 'Ingressar em atividade física — pergunte à UBS sobre grupos disponíveis', condicao: 'Sedentarismo', pontos: 10, confirmado: false, corBg: 'bg-blue-50', corTexto: 'text-blue-700', icone: '🏃' });
     }
-    alertas.push({ id: 'todos_press', texto: 'Verificar pressão arterial (1x ao ano)',                 condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-teal-50',   corTexto: 'text-teal-700',  icone: '🩺' });
-    alertas.push({ id: 'todos_glic',  texto: 'Realizar exame de glicemia em jejum (1x ao ano)',        condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-teal-50',   corTexto: 'text-teal-700',  icone: '🩺' });
-    alertas.push({ id: 'todos_cons',  texto: 'Consulta médica ou de enfermagem na UBS (1x ao ano)',    condicao: 'Prevenção',    pontos: 30, confirmado: false, corBg: 'bg-teal-50',   corTexto: 'text-teal-700',  icone: '🩺' });
+    alertas.push({ id: 'todos_press', texto: 'Verificar pressão arterial (1x ao ano)',                 condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
+    alertas.push({ id: 'todos_glic',  texto: 'Realizar exame de glicemia em jejum (1x ao ano)',        condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
+    alertas.push({ id: 'todos_cons',  texto: 'Consulta médica ou de enfermagem na UBS (1x ao ano)',    condicao: 'Prevenção',    pontos: 30, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
 
     return alertas;
   }
