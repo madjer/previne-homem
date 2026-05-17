@@ -94,7 +94,7 @@ export class ResultadoCheckupComponent implements OnInit {
 
   classificarIMC(imc: number): { label: string; cor: string } {
     if (imc < 18.5) return { label: 'Abaixo do peso', cor: 'text-blue-600' };
-    if (imc < 25)   return { label: 'Peso normal', cor: 'text-green-600' };
+    if (imc < 25)   return { label: 'Peso normal', cor: 'text-blue-600' };
     if (imc < 30)   return { label: 'Sobrepeso', cor: 'text-yellow-600' };
     if (imc < 35)   return { label: 'Obesidade Grau I', cor: 'text-orange-600' };
     if (imc < 40)   return { label: 'Obesidade Grau II', cor: 'text-red-600' };
@@ -102,14 +102,14 @@ export class ResultadoCheckupComponent implements OnInit {
   }
 
   classificarPressao(s: number, d: number): { label: string; cor: string } {
-    if (s < 120 && d < 80)  return { label: 'Normal', cor: 'text-green-600' };
+    if (s < 120 && d < 80)  return { label: 'Normal', cor: 'text-blue-600' };
     if (s < 130 && d < 80)  return { label: 'Elevada', cor: 'text-yellow-600' };
     if (s < 140 || d < 90)  return { label: 'Hipertensão Estágio 1', cor: 'text-orange-600' };
     return { label: 'Hipertensão Estágio 2', cor: 'text-red-600' };
   }
 
   classificarGlicemia(v: number): { label: string; cor: string } {
-    if (v < 100)  return { label: 'Normal (jejum)', cor: 'text-green-600' };
+    if (v < 100)  return { label: 'Normal (jejum)', cor: 'text-blue-600' };
     if (v < 126)  return { label: 'Pré-diabetes', cor: 'text-yellow-600' };
     return { label: 'Alterada — consulte UBS', cor: 'text-red-600' };
   }
@@ -289,9 +289,9 @@ export class ResultadoCheckupComponent implements OnInit {
       this.orientacoes.push({
         titulo: 'Sedentarismo',
         icone: '🏃',
-        cor: 'text-green-700',
-        corBg: 'bg-green-50',
-        corBorda: 'border-green-300',
+        cor: 'text-blue-700',
+        corBg: 'bg-blue-50',
+        corBorda: 'border-blue-300',
         dicas: [
           'Meta: 150 minutos de atividade moderada por semana',
           'Comece com 10 a 15 minutos por dia e aumente aos poucos',
@@ -323,9 +323,9 @@ export class ResultadoCheckupComponent implements OnInit {
       this.orientacoes.push({
         titulo: 'Parabéns! Seus hábitos estão ótimos',
         icone: '🌟',
-        cor: 'text-green-700',
-        corBg: 'bg-green-50',
-        corBorda: 'border-green-300',
+        cor: 'text-blue-700',
+        corBg: 'bg-blue-50',
+        corBorda: 'border-blue-300',
         dicas: [
           'Continue monitorando sua pressão e peso regularmente',
           'Faça seus exames de rotina anuais na UBS',

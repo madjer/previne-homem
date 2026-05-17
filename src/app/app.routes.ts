@@ -13,7 +13,6 @@ import { LoginComponent } from './features/login/login';
 import { AcessoComponent } from './features/acesso/acesso';
 import { PerfilComponent } from './features/perfil/perfil';
 import { BoasVindasComponent } from './features/boas-vindas/boas-vindas';
-import { MinhaSaudeComponent } from './features/minha-saude/minha-saude';
 import { LembretesComponent } from './features/lembretes/lembretes';
 import { HistoricoComponent } from './features/historico/historico';
 import { PrevencaoComponent } from './features/prevencao/prevencao';
@@ -28,7 +27,7 @@ export const routes: Routes = [
   { path: '',                component: HomeComponent,             canActivate: [authGuard] },
   { path: 'checkup',         component: CheckupComponent,          canActivate: [authGuard] },
   { path: 'resultado-checkup', component: ResultadoCheckupComponent, canActivate: [authGuard] },
-  { path: 'minha-saude',     component: MinhaSaudeComponent,       canActivate: [authGuard] },
+  { path: 'minha-saude',     redirectTo: '',                       pathMatch: 'full' },
   { path: 'habitos',         component: HabitosComponent,          canActivate: [authGuard] },
   { path: 'mente',           component: MenteEmocoesComponent,     canActivate: [authGuard] },
   { path: 'minha-ubs',       component: DuvidasUbsComponent,       canActivate: [authGuard] },

@@ -45,8 +45,8 @@ export class LojinhaComponent implements OnInit {
       icone: '🛒',
       custo: 80,
       tipo: 'parceria',
-      corBg: 'bg-green-50',
-      corIcone: 'text-green-600',
+      corBg: 'bg-blue-50',
+      corIcone: 'text-blue-600',
     },
     {
       id: 'desconto_academia',
@@ -88,6 +88,39 @@ export class LojinhaComponent implements OnInit {
     for (const r of this.recompensas) {
       r.resgatada = resgatadas.includes(r.id);
     }
+  }
+
+  get consultaRegistradaEsseMes(): boolean {
+    return !!localStorage.getItem(`consulta_ubs_${this.mesAtual()}`);
+  }
+
+  get exameRegistradoEsseMes(): boolean {
+    return !!localStorage.getItem(`exame_prev_${this.mesAtual()}`);
+  }
+
+  registrarConsulta() {
+    if (this.consultaRegistradaEsseMes) return;
+    localStorage.setItem(`consulta_ubs_${this.mesAtual()}`, '1');
+    this.game.add(30, 'Consulta na UBS registrada');
+    this.pontos = this.game.pontos;
+    this.mensagem = '🏥 Consulta registrada! +30 pontos adicionados.';
+    this.mensagemTipo = 'sucesso';
+    setTimeout(() => { this.mensagem = ''; }, 3000);
+  }
+
+  registrarExame() {
+    if (this.exameRegistradoEsseMes) return;
+    localStorage.setItem(`exame_prev_${this.mesAtual()}`, '1');
+    this.game.add(20, 'Exame preventivo registrado');
+    this.pontos = this.game.pontos;
+    this.mensagem = '🔬 Exame registrado! +20 pontos adicionados.';
+    this.mensagemTipo = 'sucesso';
+    setTimeout(() => { this.mensagem = ''; }, 3000);
+  }
+
+  private mesAtual(): string {
+    const d = new Date();
+    return `${d.getFullYear()}_${d.getMonth() + 1}`;
   }
 
   resgatar(r: Recompensa) {

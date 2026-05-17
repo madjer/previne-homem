@@ -40,6 +40,6 @@ export class HistoricoComponent implements OnInit {
   nivelCor(nivel: string): string {
     if (nivel === 'red') return 'text-red-500';
     if (nivel === 'yellow') return 'text-yellow-500';
-    return 'text-green-500';
+    return 'text-blue-500';
   }
 }
