@@ -1,23 +1,23 @@
 <div class="min-h-screen pb-20 bg-gray-50 flex flex-col">
 
   <!-- Header -->
-  <div class="bg-blue-700 text-white px-5 pt-12 pb-6">
+  <div class="bg-blue-500 text-white px-5 pt-12 pb-6">
     <div class="flex items-center gap-3 mb-1">
-      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-blue-600 transition">
+      <a routerLink="/" class="p-1 -ml-1 rounded-xl active:bg-blue-500 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
         </svg>
       </a>
       <h1 class="text-xl font-bold">Meu Perfil</h1>
     </div>
-    <p class="text-blue-200 text-sm mt-1">Mantenha seus dados atualizados para orientações personalizadas</p>
+    <p class="text-blue-100 text-sm mt-1">Mantenha seus dados atualizados para orientações personalizadas</p>
   </div>
 
   <!-- Carregando -->
   @if (isLoading) {
     <div class="flex-1 flex items-center justify-center">
       <div class="flex flex-col items-center gap-3">
-        <div class="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-700"></div>
+        <div class="h-10 w-10 animate-spin rounded-full border-4 border-blue-100 border-t-blue-500"></div>
         <p class="text-sm text-gray-500">Carregando perfil...</p>
       </div>
     </div>
@@ -28,8 +28,8 @@
 
       <!-- Sucesso -->
       @if (successMessage) {
-        <div class="bg-blue-50 border border-blue-200 text-blue-800 text-sm font-medium px-4 py-3 rounded-xl flex items-center gap-2">
-          <svg class="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <div class="bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium px-4 py-3 rounded-xl flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
           </svg>
           {{ successMessage }}
@@ -38,8 +38,8 @@
 
       <!-- ═══ DADOS PESSOAIS ═══ -->
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="px-4 py-3 bg-blue-50 border-b border-blue-100">
-          <p class="font-bold text-sm text-blue-700">Dados Pessoais</p>
+        <div class="px-4 py-3 bg-blue-50 border-b border-blue-50">
+          <p class="font-bold text-sm text-blue-500">Dados Pessoais</p>
         </div>
         <div class="px-4 py-4 space-y-4">
           <div>
@@ -53,37 +53,37 @@
           <div>
             <p class="text-xs text-gray-500 mb-1">Data de nascimento</p>
             <input type="date" [(ngModel)]="perfil.dataNascimento"
-              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 focus:bg-white transition text-gray-800"/>
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-300 focus:bg-white transition text-gray-800"/>
             @if (idadeTexto) {
-              <p class="text-xs text-blue-600 mt-1">{{ idadeTexto }}</p>
+              <p class="text-xs text-blue-500 mt-1">{{ idadeTexto }}</p>
             }
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
               <p class="text-xs text-gray-500 mb-1">Peso (kg)</p>
               <input type="number" [(ngModel)]="perfil.peso" placeholder="Ex: 80"
-                class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition text-gray-800"/>
+                class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-300 transition text-gray-800"/>
             </div>
             <div>
               <p class="text-xs text-gray-500 mb-1">Altura (cm)</p>
               <input type="number" [(ngModel)]="perfil.altura" placeholder="Ex: 175"
-                class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition text-gray-800"/>
+                class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-300 transition text-gray-800"/>
             </div>
           </div>
           <div>
             <p class="text-xs text-gray-500 mb-1">Município</p>
             <input type="text" [(ngModel)]="perfil.municipio" placeholder="Ex: Caucaia"
-              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition text-gray-800"/>
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-300 transition text-gray-800"/>
           </div>
           <div>
             <p class="text-xs text-gray-500 mb-1">UBS de referência</p>
             <input type="text" [(ngModel)]="perfil.ubsReferencia" placeholder="Nome da sua UBS"
-              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 transition text-gray-800"/>
+              class="w-full border border-gray-200 bg-gray-50 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-300 transition text-gray-800"/>
           </div>
           <label class="flex items-center gap-3 cursor-pointer">
             <div class="w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition"
-              [class.bg-blue-600]="perfil.temMedicoNaUbs"
-              [class.border-blue-600]="perfil.temMedicoNaUbs"
+              [class.bg-blue-500]="perfil.temMedicoNaUbs"
+              [class.border-blue-500]="perfil.temMedicoNaUbs"
               [class.border-gray-300]="!perfil.temMedicoNaUbs"
               (click)="perfil.temMedicoNaUbs = !perfil.temMedicoNaUbs">
               @if (perfil.temMedicoNaUbs) {
@@ -99,8 +99,8 @@
 
       <!-- ═══ HÁBITOS DE VIDA ═══ -->
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="px-4 py-3 bg-blue-50 border-b border-blue-100">
-          <p class="font-bold text-sm text-blue-700">Hábitos de Vida</p>
+        <div class="px-4 py-3 bg-blue-50 border-b border-blue-50">
+          <p class="font-bold text-sm text-blue-500">Hábitos de Vida</p>
         </div>
         <div class="px-4 py-4 space-y-5">
 
@@ -110,10 +110,10 @@
             <div class="space-y-2">
               @for (op of [{v:'nuncaFumou',l:'Nunca fumou'},{v:'exFumante',l:'Ex-fumante'},{v:'fumante',l:'Fumante'}]; track op.v) {
                 <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-                  [class.border-blue-500]="perfil.tabagismo === op.v"
+                  [class.border-blue-400]="perfil.tabagismo === op.v"
                   [class.bg-blue-50]="perfil.tabagismo === op.v"
                   [class.border-gray-200]="perfil.tabagismo !== op.v">
-                  <input type="radio" name="tabagismo" [value]="op.v" [(ngModel)]="perfil.tabagismo" class="accent-blue-600"/>
+                  <input type="radio" name="tabagismo" [value]="op.v" [(ngModel)]="perfil.tabagismo" class="accent-blue-500"/>
                   <span class="text-sm text-gray-800">{{ op.l }}</span>
                 </label>
               }
@@ -126,10 +126,10 @@
             <div class="space-y-2">
               @for (op of [{v:'naoConsome',l:'Não consome'},{v:'ocasionalmente',l:'Consome ocasionalmente'},{v:'frequentemente',l:'Consome frequentemente'}]; track op.v) {
                 <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-                  [class.border-blue-500]="perfil.alcool === op.v"
+                  [class.border-blue-400]="perfil.alcool === op.v"
                   [class.bg-blue-50]="perfil.alcool === op.v"
                   [class.border-gray-200]="perfil.alcool !== op.v">
-                  <input type="radio" name="alcool" [value]="op.v" [(ngModel)]="perfil.alcool" class="accent-blue-600"/>
+                  <input type="radio" name="alcool" [value]="op.v" [(ngModel)]="perfil.alcool" class="accent-blue-500"/>
                   <span class="text-sm text-gray-800">{{ op.l }}</span>
                 </label>
               }
@@ -142,10 +142,10 @@
             <div class="space-y-2">
               @for (op of [{v:'ativo',l:'Ativo — pratica exercícios regularmente'},{v:'sedentario',l:'Sedentário'}]; track op.v) {
                 <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-                  [class.border-blue-500]="perfil.atividadeFisica === op.v"
+                  [class.border-blue-400]="perfil.atividadeFisica === op.v"
                   [class.bg-blue-50]="perfil.atividadeFisica === op.v"
                   [class.border-gray-200]="perfil.atividadeFisica !== op.v">
-                  <input type="radio" name="atividadeFisica" [value]="op.v" [(ngModel)]="perfil.atividadeFisica" class="accent-blue-600"/>
+                  <input type="radio" name="atividadeFisica" [value]="op.v" [(ngModel)]="perfil.atividadeFisica" class="accent-blue-500"/>
                   <span class="text-sm text-gray-800">{{ op.l }}</span>
                 </label>
               }
@@ -158,10 +158,10 @@
             <div class="space-y-2">
               @for (op of [{v:'saudavel',l:'Saudável'},{v:'irregular',l:'Irregular'},{v:'naoSabe',l:'Não sei responder'}]; track op.v) {
                 <label class="flex items-center gap-3 border rounded-xl px-4 py-3 cursor-pointer transition"
-                  [class.border-blue-500]="perfil.alimentacao === op.v"
+                  [class.border-blue-400]="perfil.alimentacao === op.v"
                   [class.bg-blue-50]="perfil.alimentacao === op.v"
                   [class.border-gray-200]="perfil.alimentacao !== op.v">
-                  <input type="radio" name="alimentacao" [value]="op.v" [(ngModel)]="perfil.alimentacao" class="accent-blue-600"/>
+                  <input type="radio" name="alimentacao" [value]="op.v" [(ngModel)]="perfil.alimentacao" class="accent-blue-500"/>
                   <span class="text-sm text-gray-800">{{ op.l }}</span>
                 </label>
               }
@@ -200,7 +200,7 @@
 
       <!-- Salvar -->
       <button (click)="salvar()"
-        class="w-full bg-blue-700 text-white py-4 rounded-2xl font-semibold active:scale-95 transition shadow-md">
+        class="w-full bg-blue-500 text-white py-4 rounded-2xl font-semibold active:scale-95 transition shadow-md">
         Salvar perfil
       </button>
 

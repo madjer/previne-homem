@@ -29,9 +29,9 @@ export class PrevencaoComponent {
       id: 'transito',
       titulo: 'No Trânsito',
       icone: '🚗',
-      cor: 'text-blue-700',
+      cor: 'text-blue-500',
       corBg: 'bg-blue-50',
-      corBorda: 'border-blue-200',
+      corBorda: 'border-blue-100',
       intro: 'Homens são responsáveis por 80% das mortes no trânsito. O álcool está envolvido em boa parte dessas mortes.',
       itens: [
         'Use sempre o cinto de segurança',
@@ -62,9 +62,9 @@ export class PrevencaoComponent {
       id: 'comunidade',
       titulo: 'Em Casa e na Comunidade',
       icone: '🏘️',
-      cor: 'text-blue-700',
+      cor: 'text-blue-500',
       corBg: 'bg-blue-50',
-      corBorda: 'border-blue-200',
+      corBorda: 'border-blue-100',
       intro: 'Homens são 4 vezes mais vítimas de assassinato do que mulheres no Brasil. Resolução de conflitos com diálogo salva vidas.',
       itens: [
         'Resolva conflitos com diálogo — violência gera violência',

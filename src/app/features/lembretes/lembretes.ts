@@ -92,9 +92,9 @@ export class LembretesComponent implements OnInit {
     const idade = this.calcularIdade(perfil.dataNascimento);
 
     if (perfil.diabetico === 'sim') {
-      alertas.push({ id: 'diab_pes',  texto: 'Realizar avaliação dos pés (1x ao ano)',              condicao: 'Diabetes',     pontos: 15, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩸' });
-      alertas.push({ id: 'diab_glic', texto: 'Medir glicemia e hemoglobina glicada (a cada 3 meses)', condicao: 'Diabetes',   pontos: 15, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩸' });
-      alertas.push({ id: 'diab_cons', texto: 'Consulta de acompanhamento na UBS (a cada 3 meses)',   condicao: 'Diabetes',     pontos: 30, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩸' });
+      alertas.push({ id: 'diab_pes',  texto: 'Realizar avaliação dos pés (1x ao ano)',              condicao: 'Diabetes',     pontos: 15, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩸' });
+      alertas.push({ id: 'diab_glic', texto: 'Medir glicemia e hemoglobina glicada (a cada 3 meses)', condicao: 'Diabetes',   pontos: 15, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩸' });
+      alertas.push({ id: 'diab_cons', texto: 'Consulta de acompanhamento na UBS (a cada 3 meses)',   condicao: 'Diabetes',     pontos: 30, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩸' });
     }
     if (perfil.hipertenso === 'sim') {
       alertas.push({ id: 'hip_press', texto: 'Medir a pressão arterial (mensalmente)',                condicao: 'Hipertensão',  pontos: 15, confirmado: false, corBg: 'bg-red-50',    corTexto: 'text-red-700',   icone: '💓' });
@@ -110,11 +110,11 @@ export class LembretesComponent implements OnInit {
       alertas.push({ id: 'colest',    texto: 'Realizar exame de colesterol e triglicerídeos (1x ao ano)', condicao: '40+ anos', pontos: 15, confirmado: false, corBg: 'bg-orange-50', corTexto: 'text-orange-700', icone: '🔬' });
     }
     if (perfil.atividadeFisica === 'sedentario') {
-      alertas.push({ id: 'sed_ativ',  texto: 'Ingressar em atividade física — pergunte à UBS sobre grupos disponíveis', condicao: 'Sedentarismo', pontos: 10, confirmado: false, corBg: 'bg-blue-50', corTexto: 'text-blue-700', icone: '🏃' });
+      alertas.push({ id: 'sed_ativ',  texto: 'Ingressar em atividade física — pergunte à UBS sobre grupos disponíveis', condicao: 'Sedentarismo', pontos: 10, confirmado: false, corBg: 'bg-blue-50', corTexto: 'text-blue-500', icone: '🏃' });
     }
-    alertas.push({ id: 'todos_press', texto: 'Verificar pressão arterial (1x ao ano)',                 condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
-    alertas.push({ id: 'todos_glic',  texto: 'Realizar exame de glicemia em jejum (1x ao ano)',        condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
-    alertas.push({ id: 'todos_cons',  texto: 'Consulta médica ou de enfermagem na UBS (1x ao ano)',    condicao: 'Prevenção',    pontos: 30, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-700',  icone: '🩺' });
+    alertas.push({ id: 'todos_press', texto: 'Verificar pressão arterial (1x ao ano)',                 condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩺' });
+    alertas.push({ id: 'todos_glic',  texto: 'Realizar exame de glicemia em jejum (1x ao ano)',        condicao: 'Prevenção',    pontos: 10, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩺' });
+    alertas.push({ id: 'todos_cons',  texto: 'Consulta médica ou de enfermagem na UBS (1x ao ano)',    condicao: 'Prevenção',    pontos: 30, confirmado: false, corBg: 'bg-blue-50',   corTexto: 'text-blue-500',  icone: '🩺' });
 
     return alertas;
   }
