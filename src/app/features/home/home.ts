@@ -47,6 +47,24 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewChecked {
   private deveRolar = false;
   private unsubscribeAuth?: () => void;
 
+  private readonly frasesMotivaionais = [
+    'Homem que se cuida é homem forte! 💪',
+    'Sua saúde é sua maior riqueza. 🏆',
+    'Prevenir é o melhor remédio. ✅',
+    'Cuidar de si é cuidar de quem você ama. ❤️',
+    'Um check-up pode mudar tudo. 🩺',
+    'Força começa por dentro. 🌟',
+    'Homem saudável, família tranquila. 🏡',
+    'Seu corpo merece atenção e respeito. 💡',
+    'Não espere adoecer para se cuidar. 🛡️',
+    'Cada consulta é um passo à frente. 👣',
+  ];
+
+  readonly fraseDiaria: string = (() => {
+    const idx = new Date().getDate() % this.frasesMotivaionais.length;
+    return this.frasesMotivaionais[idx];
+  })();
+
   atalhos = [
     { label: 'Check-up',    route: '/checkup',           cor: 'bg-blue-50 text-blue-500' },
     { label: 'Resultado',   route: '/resultado-checkup', cor: 'bg-blue-50 text-blue-500' },
